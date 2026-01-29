@@ -1,0 +1,53 @@
+enum ProductStatusEnum {
+  ACTIVE
+  INACTIVE
+}
+
+
+type Product {
+  id: Long!
+  name: String!
+  price: String!
+  users: [User!]
+  uuid: UUID!
+  birthDate: Date
+  status: ProductStatusEnum
+}
+
+input ProductCreateInput {
+  name: String!
+  price: String!
+  usersIds: [ID!]!
+  uuid: UUID!
+  birthDate: Date
+  status: ProductStatusEnum
+}
+
+input ProductUpdateInput {
+  name: String
+  price: String
+  uuid: UUID
+  birthDate: Date
+  status: ProductStatusEnum
+}
+
+type ProductPage {
+  totalPages: Int!
+  totalElements: Long!
+  size: Int!
+  number: Int!
+  content: [Product!]!
+}
+
+extend type Query {
+  productById(id: ID!): Product
+  productsPage(pageNumber: Int = 0, pageSize: Int = 20): ProductPage!
+}
+
+extend type Mutation {
+  createProduct(input: ProductCreateInput!): Product!
+  updateProduct(id: ID!, input: ProductUpdateInput!): Product!
+  deleteProduct(id: ID!): Boolean!
+  addUsersToProduct(id: ID!, usersId: ID!): Product!
+  removeUsersFromProduct(id: ID! , usersId: ID!): Product!
+}

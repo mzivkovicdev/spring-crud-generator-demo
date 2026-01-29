@@ -1,0 +1,229 @@
+openapi: 3.1.0
+
+info:
+  title: Order API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/
+
+tags:
+  - name: "Order"
+
+paths:
+  /orders:
+    post:
+      summary: Create new order
+      tags:
+          - "Order"
+      description: Create new order
+      operationId: ordersPost
+      requestBody:
+        required: true
+        description: Request creating a new order.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderCreatePayload'
+      responses:
+        '200':
+          description: Created new order.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderPayload'
+    get:
+      parameters:
+      - in: query
+        name: pageNumber
+        description: Page number
+        required: true
+        schema:
+          type: integer
+      - in: query
+        name: pageSize
+        description: Page size
+        required: true
+        schema:
+          type: integer
+      
+      summary: Get the orders
+      tags:
+          - "Order"
+      description: Get the orders
+      operationId: ordersGet
+      responses:
+        '200':
+          description: Found orders.
+          content:
+            application/json:
+              schema:
+                properties:
+                  totalPages:
+                    type: integer
+                  totalElements:
+                    type: integer
+                    format: int64
+                  size:
+                    type: integer
+                  number:
+                    type: integer
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrderPayload'
+
+  /orders/{orderId}:
+    parameters:
+      - in: path
+        name: orderId
+        description: The unique identifier for the order
+        required: true
+        schema:
+          type: integer
+          format: int64
+      
+    get:
+      summary: Get the order by orderId
+      tags:
+          - "Order"
+      description: Get the order by orderId
+      operationId: ordersIdGet
+      responses:
+          '200':
+            description: Found order.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/OrderPayload'
+    put:
+      summary: Update the order by orderId
+      tags:
+          - "Order"
+      description: Update the order by orderId
+      operationId: ordersIdPut
+      requestBody:
+          required: true
+          description: Request modifying order.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderUpdatePayload'
+      responses:
+          '200':
+            description: Found order by provided order ID.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/OrderPayload'
+    delete:
+      summary: Delete the order by orderId
+      tags:
+          - "Order"
+      description: Delete the order by orderId
+      operationId: ordersIdDelete
+      responses:
+          '204':
+            description: Deleted order.
+  
+  /orders/{orderId}/products:
+    parameters:
+      - in: path
+        name: orderId
+        description: The unique identifier for the order
+        required: true
+        schema:
+          type: integer
+          format: int64
+    post:
+      summary: Add product to order
+      tags:
+        - Order
+      operationId: ordersIdProductsPost
+      requestBody:
+        required: true
+        description: Request adding Product to OrderPayload
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+      responses:
+        '200':
+          description: Added Product to OrderPayload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderPayload'
+    delete:
+      summary: Remove product from order
+      tags:
+        - Order
+      operationId: ordersIdProductsDelete
+      responses:
+        '204':
+          description: Removed product from order
+  /orders/{orderId}/users:
+    parameters:
+      - in: path
+        name: orderId
+        description: The unique identifier for the order
+        required: true
+        schema:
+          type: integer
+          format: int64
+    post:
+      summary: Add user to order
+      tags:
+        - Order
+      operationId: ordersIdUsersPost
+      requestBody:
+        required: true
+        description: Request adding User to OrderPayload
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '200':
+          description: Added User to OrderPayload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderPayload'
+  /orders/{orderId}/users/{userUserId}:
+    parameters:
+      - in: path
+        name: orderId
+        description: The unique identifier for the order
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - in: path
+        name: userUserId
+        description: ID of related User to remove
+        required: true
+        schema:
+          type: integer
+          format: int64
+    delete:
+      summary: Remove user from order
+      tags:
+        - Order
+      operationId: ordersIdUsersDelete
+      responses:
+        '204':
+          description: Removed User from OrderPayload
+
+components:
+  schemas:
+    OrderPayload:
+      $ref: './components/schemas/orderPayload.yaml'
+    OrderCreatePayload:
+      $ref: './components/schemas/orderCreatePayload.yaml'
+    OrderUpdatePayload:
+      $ref: './components/schemas/orderUpdatePayload.yaml'
+    UserInput:
+      $ref: './components/schemas/userInput.yaml'
+    ProductInput:
+      $ref: './components/schemas/productInput.yaml'

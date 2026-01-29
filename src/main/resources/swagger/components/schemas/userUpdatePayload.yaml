@@ -1,0 +1,22 @@
+type: object
+description: Represents a user
+title: UserUpdatePayload
+properties:
+  username:
+    type: string
+  email:
+    type: string
+  password:
+    type: string
+  details:
+    $ref: './detailsPayload.yaml'
+  roles:
+    type: array
+    uniqueItems: false
+    items:
+      type: string
+  permissions:
+    type: array
+    uniqueItems: false
+    items:
+      type: string

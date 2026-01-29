@@ -1,0 +1,19 @@
+type: object
+description: Represents an order
+title: OrderPayload
+properties:
+  orderId:
+    type: integer
+    format: int64
+    description: The unique identifier for the order
+  product:
+    $ref: './productPayload.yaml'
+    description: Represents a product
+  quantity:
+    type: integer
+    format: int32
+    nullable: false
+  users:
+    type: array
+    items:
+      $ref: './userPayload.yaml'

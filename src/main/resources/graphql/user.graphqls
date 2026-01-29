@@ -1,0 +1,57 @@
+
+type Details {
+  firstName: String
+  lastName: String
+}
+
+input DetailsInput {
+  firstName: String
+  lastName: String
+}
+
+type User {
+  userId: Long!
+  username: String
+  email: String
+  password: String
+  details: Details
+  roles: [String]
+  permissions: [String]
+}
+
+input UserCreateInput {
+  username: String
+  email: String
+  password: String
+  details: DetailsInput
+  roles: [String]
+  permissions: [String]
+}
+
+input UserUpdateInput {
+  username: String
+  email: String
+  password: String
+  details: DetailsInput
+  roles: [String]
+  permissions: [String]
+}
+
+type UserPage {
+  totalPages: Int!
+  totalElements: Long!
+  size: Int!
+  number: Int!
+  content: [User!]!
+}
+
+extend type Query {
+  userById(id: ID!): User
+  usersPage(pageNumber: Int = 0, pageSize: Int = 20): UserPage!
+}
+
+extend type Mutation {
+  createUser(input: UserCreateInput!): User!
+  updateUser(id: ID!, input: UserUpdateInput!): User!
+  deleteUser(id: ID!): Boolean!
+}

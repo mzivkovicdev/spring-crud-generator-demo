@@ -1,0 +1,15 @@
+type: object
+description: Represents an order
+title: OrderCreatePayload
+properties:
+  product:
+    $ref: './productInput.yaml'
+    description: Represents a product
+  quantity:
+    type: integer
+    format: int32
+    nullable: false
+  users:
+    type: array
+    items:
+      $ref: './userInput.yaml'

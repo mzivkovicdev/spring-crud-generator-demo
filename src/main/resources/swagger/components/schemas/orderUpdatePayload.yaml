@@ -1,0 +1,8 @@
+type: object
+description: Represents an order
+title: OrderUpdatePayload
+properties:
+  quantity:
+    type: integer
+    format: int32
+    nullable: false
