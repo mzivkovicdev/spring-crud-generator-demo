@@ -3,7 +3,7 @@ spring:
     name: spring-crud-generator-demo
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:posgresql://localhost:5432/spring-crud-generator-demo}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/spring-crud-generator-demo}
     username: ${SPRING_DATASOURCE_USERNAME:app}
     password: ${SPRING_DATASOURCE_PASSWORD:app}
 
