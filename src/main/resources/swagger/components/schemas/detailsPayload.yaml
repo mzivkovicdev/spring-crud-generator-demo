@@ -1,0 +1,8 @@
+type: object
+description: Represents a user details
+title: DetailsPayload
+properties:
+  firstName:
+    type: string
+  lastName:
+    type: string

@@ -1,0 +1,140 @@
+openapi: 3.1.0
+
+info:
+  title: User API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/
+
+tags:
+  - name: "User"
+
+paths:
+  /users:
+    post:
+      summary: Create new user
+      tags:
+          - "User"
+      description: Create new user
+      operationId: usersPost
+      requestBody:
+        required: true
+        description: Request creating a new user.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreatePayload'
+      responses:
+        '200':
+          description: Created new user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPayload'
+    get:
+      parameters:
+      - in: query
+        name: pageNumber
+        description: Page number
+        required: true
+        schema:
+          type: integer
+      - in: query
+        name: pageSize
+        description: Page size
+        required: true
+        schema:
+          type: integer
+      
+      summary: Get the users
+      tags:
+          - "User"
+      description: Get the users
+      operationId: usersGet
+      responses:
+        '200':
+          description: Found users.
+          content:
+            application/json:
+              schema:
+                properties:
+                  totalPages:
+                    type: integer
+                  totalElements:
+                    type: integer
+                    format: int64
+                  size:
+                    type: integer
+                  number:
+                    type: integer
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserPayload'
+
+  /users/{userId}:
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      
+    get:
+      summary: Get the user by userId
+      tags:
+          - "User"
+      description: Get the user by userId
+      operationId: usersIdGet
+      responses:
+          '200':
+            description: Found user.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UserPayload'
+    put:
+      summary: Update the user by userId
+      tags:
+          - "User"
+      description: Update the user by userId
+      operationId: usersIdPut
+      requestBody:
+          required: true
+          description: Request modifying user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdatePayload'
+      responses:
+          '200':
+            description: Found user by provided user ID.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UserPayload'
+    delete:
+      summary: Delete the user by userId
+      tags:
+          - "User"
+      description: Delete the user by userId
+      operationId: usersIdDelete
+      responses:
+          '204':
+            description: Deleted user.
+  
+
+components:
+  schemas:
+    UserPayload:
+      $ref: './components/schemas/userPayload.yaml'
+    UserCreatePayload:
+      $ref: './components/schemas/userCreatePayload.yaml'
+    UserUpdatePayload:
+      $ref: './components/schemas/userUpdatePayload.yaml'
+    UserInput:
+      $ref: './components/schemas/userInput.yaml'
+    ProductInput:
+      $ref: './components/schemas/productInput.yaml'

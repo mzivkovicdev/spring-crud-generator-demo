@@ -1,0 +1,8 @@
+type: object
+description: Represents a product
+title: ProductInput
+properties:
+  id:
+    type: integer
+    format: int64
+    description: The unique identifier for the product

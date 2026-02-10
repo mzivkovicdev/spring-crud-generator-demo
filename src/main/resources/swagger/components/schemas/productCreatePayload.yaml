@@ -1,0 +1,32 @@
+type: object
+description: Represents a product
+title: ProductCreatePayload
+properties:
+  name:
+    type: string
+    nullable: false
+    maxLength: 10000
+    description: The name of the product
+  price:
+    type: string
+    nullable: false
+    description: The price of the product
+  users:
+    type: array
+    items:
+      $ref: './userInput.yaml'
+  uuid:
+    type: string
+    format: uuid
+    nullable: false
+    description: The unique identifier for the product
+  birthDate:
+    type: string
+    format: date
+    description: The date and time the product was created
+  status:
+    type: string
+    enum:
+      - ACTIVE
+      - INACTIVE
+    description: The status of the product

@@ -1,0 +1,193 @@
+openapi: 3.1.0
+
+info:
+  title: Product API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/
+
+tags:
+  - name: "Product"
+
+paths:
+  /products:
+    post:
+      summary: Create new product
+      tags:
+          - "Product"
+      description: Create new product
+      operationId: productsPost
+      requestBody:
+        required: true
+        description: Request creating a new product.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreatePayload'
+      responses:
+        '200':
+          description: Created new product.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductPayload'
+    get:
+      parameters:
+      - in: query
+        name: pageNumber
+        description: Page number
+        required: true
+        schema:
+          type: integer
+      - in: query
+        name: pageSize
+        description: Page size
+        required: true
+        schema:
+          type: integer
+      
+      summary: Get the products
+      tags:
+          - "Product"
+      description: Get the products
+      operationId: productsGet
+      responses:
+        '200':
+          description: Found products.
+          content:
+            application/json:
+              schema:
+                properties:
+                  totalPages:
+                    type: integer
+                  totalElements:
+                    type: integer
+                    format: int64
+                  size:
+                    type: integer
+                  number:
+                    type: integer
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductPayload'
+
+  /products/{id}:
+    parameters:
+      - in: path
+        name: id
+        description: The unique identifier for the product
+        required: true
+        schema:
+          type: integer
+          format: int64
+      
+    get:
+      summary: Get the product by id
+      tags:
+          - "Product"
+      description: Get the product by id
+      operationId: productsIdGet
+      responses:
+          '200':
+            description: Found product.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ProductPayload'
+    put:
+      summary: Update the product by id
+      tags:
+          - "Product"
+      description: Update the product by id
+      operationId: productsIdPut
+      requestBody:
+          required: true
+          description: Request modifying product.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductUpdatePayload'
+      responses:
+          '200':
+            description: Found product by provided product ID.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ProductPayload'
+    delete:
+      summary: Delete the product by id
+      tags:
+          - "Product"
+      description: Delete the product by id
+      operationId: productsIdDelete
+      responses:
+          '204':
+            description: Deleted product.
+  
+  /products/{id}/users:
+    parameters:
+      - in: path
+        name: id
+        description: The unique identifier for the product
+        required: true
+        schema:
+          type: integer
+          format: int64
+    post:
+      summary: Add user to product
+      tags:
+        - Product
+      operationId: productsIdUsersPost
+      requestBody:
+        required: true
+        description: Request adding User to ProductPayload
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '200':
+          description: Added User to ProductPayload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductPayload'
+  /products/{id}/users/{userUserId}:
+    parameters:
+      - in: path
+        name: id
+        description: The unique identifier for the product
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - in: path
+        name: userUserId
+        description: ID of related User to remove
+        required: true
+        schema:
+          type: integer
+          format: int64
+    delete:
+      summary: Remove user from product
+      tags:
+        - Product
+      operationId: productsIdUsersDelete
+      responses:
+        '204':
+          description: Removed User from ProductPayload
+
+components:
+  schemas:
+    ProductPayload:
+      $ref: './components/schemas/productPayload.yaml'
+    ProductCreatePayload:
+      $ref: './components/schemas/productCreatePayload.yaml'
+    ProductUpdatePayload:
+      $ref: './components/schemas/productUpdatePayload.yaml'
+    UserInput:
+      $ref: './components/schemas/userInput.yaml'
+    ProductInput:
+      $ref: './components/schemas/productInput.yaml'

@@ -1,0 +1,41 @@
+
+
+type Order {
+  orderId: Long!
+  product: Product
+  quantity: Int!
+  users: [User!]
+}
+
+input OrderCreateInput {
+  productId: ID!
+  quantity: Int!
+  usersIds: [ID!]!
+}
+
+input OrderUpdateInput {
+  quantity: Int
+}
+
+type OrderPage {
+  totalPages: Int!
+  totalElements: Long!
+  size: Int!
+  number: Int!
+  content: [Order!]!
+}
+
+extend type Query {
+  orderById(id: ID!): Order
+  ordersPage(pageNumber: Int = 0, pageSize: Int = 20): OrderPage!
+}
+
+extend type Mutation {
+  createOrder(input: OrderCreateInput!): Order!
+  updateOrder(id: ID!, input: OrderUpdateInput!): Order!
+  deleteOrder(id: ID!): Boolean!
+  addProductToOrder(id: ID!, productId: ID!): Order!
+  removeProductFromOrder(id: ID! ): Order!
+  addUsersToOrder(id: ID!, usersId: ID!): Order!
+  removeUsersFromOrder(id: ID! , usersId: ID!): Order!
+}

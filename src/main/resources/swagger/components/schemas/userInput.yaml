@@ -1,0 +1,7 @@
+type: object
+description: Represents a user
+title: UserInput
+properties:
+  userId:
+    type: integer
+    format: int64

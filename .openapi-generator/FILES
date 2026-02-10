@@ -1,0 +1,10 @@
+README.md
+src/main/java/dev/markozivkovic/spring_crud_generator_demo/generated/user/api/ApiUtil.java
+src/main/java/dev/markozivkovic/spring_crud_generator_demo/generated/user/api/UsersApi.java
+src/main/java/dev/markozivkovic/spring_crud_generator_demo/generated/user/model/DetailsPayload.java
+src/main/java/dev/markozivkovic/spring_crud_generator_demo/generated/user/model/ProductInput.java
+src/main/java/dev/markozivkovic/spring_crud_generator_demo/generated/user/model/UserCreatePayload.java
+src/main/java/dev/markozivkovic/spring_crud_generator_demo/generated/user/model/UserInput.java
+src/main/java/dev/markozivkovic/spring_crud_generator_demo/generated/user/model/UserPayload.java
+src/main/java/dev/markozivkovic/spring_crud_generator_demo/generated/user/model/UserUpdatePayload.java
+src/main/java/dev/markozivkovic/spring_crud_generator_demo/generated/user/model/UsersGet200Response.java
