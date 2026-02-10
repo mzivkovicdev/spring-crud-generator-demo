@@ -34,7 +34,6 @@ import dev.markozivkovic.spring_crud_generator_demo.mapper.rest.ProductRestMappe
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.ProductModel;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.service.ProductService;
 
-import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.json.JsonMapper;
 
 @WebMvcTest(excludeAutoConfiguration = {
@@ -131,7 +130,7 @@ class ProductGetMockMvcTest {
                     .findFirst()
                     .orElseThrow();
 
-            verifyProduct(result, productModel);
+            verifyProductSimple(result, productModel);
         });
 
         verify(this.productService).getAll(pageNumber, pageSize);
@@ -178,4 +177,12 @@ class ProductGetMockMvcTest {
         assertThat(result).isEqualTo(mappedProductModel);
     }
 
+    private void verifyProductSimple(final ProductPayload result, final ProductModel productModel) {
+        
+        assertThat(result).isNotNull();
+        final ProductPayload mappedProductModel = productRestMapper.mapProductTOToProductPayload(
+                productRestMapper.mapProductModelToProductTOSimple(productModel)
+        );
+        assertThat(result).isEqualTo(mappedProductModel);
+    }
 }

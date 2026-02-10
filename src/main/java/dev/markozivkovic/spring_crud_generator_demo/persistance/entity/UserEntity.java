@@ -12,6 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OrderColumn;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -24,6 +26,13 @@ import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.helpers.D
 
 @Entity
 @Table(name = "user_table")
+@NamedEntityGraph(
+    name = "User.withRolesPermissions",
+    attributeNodes = {
+        @NamedAttributeNode("roles"),
+        @NamedAttributeNode("permissions")
+    }
+)
 public class UserEntity {
 
     @Id
@@ -33,7 +42,7 @@ public class UserEntity {
         allocationSize = 50,
         initialValue = 1
     )
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "User_gen")
     private Long userId;
 
     private String username;

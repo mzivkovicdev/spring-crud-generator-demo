@@ -45,7 +45,6 @@ class DetailsRestMapperTest {
             verifyDetailsTO(result, details);
         });
     }
-
     @Test
     void mapDetailsTOToDetails() {
 

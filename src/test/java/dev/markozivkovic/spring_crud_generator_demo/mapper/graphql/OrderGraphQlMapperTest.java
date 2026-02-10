@@ -44,7 +44,36 @@ class OrderGraphQlMapperTest {
             verifyOrderTO(result, orderTable);
         });
     }
+    @Test
+    void mapOrderTableToOrderTOSimple() {
 
+        final OrderTable orderTable = Instancio.create(OrderTable.class);
+
+        final OrderTO result = this.orderMapper.mapOrderTableToOrderTOSimple(orderTable);
+
+        verifyOrderTOSimple(result, orderTable);
+    }
+
+    @Test
+    void mapOrderTableToOrderTOSimple_list() {
+
+        final List<OrderTable> orderTables = Instancio.ofList(OrderTable.class)
+                .size(10)
+                .create();
+
+        final List<OrderTO> results = this.orderMapper.mapOrderTableToOrderTOSimple(orderTables);
+
+        results.forEach(result -> {
+
+            final OrderTable orderTable = orderTables.stream()
+                    .filter(obj -> obj.getOrderId().equals(result.orderId()))
+                    .findFirst()
+                    .orElseThrow();
+            
+            verifyOrderTOSimple(result, orderTable);
+        });
+    }
+    
     @Test
     void mapOrderTOToOrderTable() {
 
@@ -77,6 +106,13 @@ class OrderGraphQlMapperTest {
 
 
     private void verifyOrderTO(final OrderTO result, final OrderTable orderTable) {
+
+        assertThat(result).isNotNull();
+        assertThat(result.orderId()).isEqualTo(orderTable.getOrderId());
+        assertThat(result.quantity()).isEqualTo(orderTable.getQuantity());
+    }
+
+    private void verifyOrderTOSimple(final OrderTO result, final OrderTable orderTable) {
 
         assertThat(result).isNotNull();
         assertThat(result.orderId()).isEqualTo(orderTable.getOrderId());

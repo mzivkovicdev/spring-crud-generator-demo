@@ -50,7 +50,7 @@ public class OrderResolver {
             pageObject.getTotalElements(),
             pageObject.getSize(),
             pageObject.getNumber(),
-            orderMapper.mapOrderTableToOrderTO(pageObject.getContent())
+            orderMapper.mapOrderTableToOrderTOSimple(pageObject.getContent())
         );
     }
     

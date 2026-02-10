@@ -85,12 +85,12 @@ class ProductBusinessServiceTest {
         final UserEntity userEntity = Instancio.create(UserEntity.class);
         final Long userId = userEntity.getUserId();
 
-        when(this.userService.getReferenceById(userId)).thenReturn(userEntity);
+        when(this.userService.getById(userId)).thenReturn(userEntity);
         when(this.productService.addUsers(id, userEntity)).thenReturn(productModel);
 
         final ProductModel result = this.productBusinessService.addUsers(id, userId);
 
-        verify(this.userService).getReferenceById(userId);
+        verify(this.userService).getById(userId);
         verify(this.productService).addUsers(id, userEntity);
 
         verifyProduct(result, productModel);
@@ -104,12 +104,12 @@ class ProductBusinessServiceTest {
         final UserEntity userEntity = Instancio.create(UserEntity.class);
         final Long userId = userEntity.getUserId();
 
-        when(this.userService.getReferenceById(userId)).thenReturn(userEntity);
+        when(this.userService.getById(userId)).thenReturn(userEntity);
         when(this.productService.removeUsers(id, userEntity)).thenReturn(productModel);
 
         final ProductModel result = this.productBusinessService.removeUsers(id, userId);
 
-        verify(this.userService).getReferenceById(userId);
+        verify(this.userService).getById(userId);
         verify(this.productService).removeUsers(id, userEntity);
 
         verifyProduct(result, productModel);

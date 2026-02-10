@@ -101,4 +101,5 @@ class UserCreateMockMvcTest {
         );
         assertThat(result).isEqualTo(mappedUserEntity);
     }
+
 }

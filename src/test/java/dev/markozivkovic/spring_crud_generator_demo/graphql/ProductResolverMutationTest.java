@@ -391,7 +391,7 @@ class ProductResolverMutationTest {
     private static ProductCreateTO generateProductCreateTO() {
         final ProductCreateTO input = Instancio.create(ProductCreateTO.class);
         return new ProductCreateTO(
-                generateString(10000),
+                generateString(1),
                 input.price(),
                 input.usersIds(),
                 input.uuid(),
@@ -403,7 +403,7 @@ class ProductResolverMutationTest {
     private static ProductCreateTO generateInvalidProductCreateTO() {
         final ProductCreateTO input = Instancio.create(ProductCreateTO.class);
         return new ProductCreateTO(
-                generateString(10010),
+                generateString(10001),
                 input.price(),
                 input.usersIds(),
                 input.uuid(),
@@ -415,7 +415,7 @@ class ProductResolverMutationTest {
     private static ProductUpdateTO generateProductUpdateTO() {
         final ProductUpdateTO input = Instancio.create(ProductUpdateTO.class);
         return new ProductUpdateTO(
-                generateString(10000),
+                generateString(1),
                 input.price(),
                 input.uuid(),
                 input.birthDate(),
@@ -426,7 +426,7 @@ class ProductResolverMutationTest {
     private static ProductUpdateTO generateInvalidProductUpdateTO() {
         final ProductUpdateTO input = Instancio.create(ProductUpdateTO.class);
         return new ProductUpdateTO(
-                generateString(10010),
+                generateString(10001),
                 input.price(),
                 input.uuid(),
                 input.birthDate(),
@@ -439,4 +439,5 @@ class ProductResolverMutationTest {
                 .length(n)
                 .get();
     }
+
 }

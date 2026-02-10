@@ -80,7 +80,7 @@ public class OrderController implements OrdersApi {
                 .number(pageObject.getNumber())
                 .content(
                     orderMapper.mapOrderTOToOrderPayload(
-                        orderMapper.mapOrderTableToOrderTO(
+                        orderMapper.mapOrderTableToOrderTOSimple(
                             pageObject.getContent()
                         )
                     )

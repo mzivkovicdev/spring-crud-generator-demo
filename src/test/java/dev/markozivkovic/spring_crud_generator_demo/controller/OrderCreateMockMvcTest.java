@@ -114,4 +114,5 @@ class OrderCreateMockMvcTest {
         );
         assertThat(result).isEqualTo(mappedOrderTable);
     }
+
 }

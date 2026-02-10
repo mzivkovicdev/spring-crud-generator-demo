@@ -50,7 +50,7 @@ public class ProductResolver {
             pageObject.getTotalElements(),
             pageObject.getSize(),
             pageObject.getNumber(),
-            productMapper.mapProductModelToProductTO(pageObject.getContent())
+            productMapper.mapProductModelToProductTOSimple(pageObject.getContent())
         );
     }
     

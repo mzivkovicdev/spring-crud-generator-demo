@@ -71,7 +71,7 @@ class ProductCreateMockMvcTest {
 
         final ProductModel productModel = Instancio.create(ProductModel.class);
         final ProductCreatePayload body = Instancio.create(ProductCreatePayload.class);
-        body.name(generateString(10000));
+        body.name(generateString(1));
         final List<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 
                 body.getUsers().stream()
                     .map(UserInput::getUserId)
@@ -105,7 +105,7 @@ class ProductCreateMockMvcTest {
     void productsPost_validationFails() throws Exception {
 
         final ProductCreatePayload body = Instancio.create(ProductCreatePayload.class);
-        body.name(generateString(10010));
+        body.name(generateString(10001));
 
         this.mockMvc.perform(post("/api/products")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -129,6 +129,7 @@ class ProductCreateMockMvcTest {
         );
         assertThat(result).isEqualTo(mappedProductModel);
     }
+
     private static String generateString(final int n) {
         return Instancio.gen().string()
                 .length(n)

@@ -33,7 +33,7 @@ public class OrderBusinessService {
     public OrderTable create(final Long productId, final Integer quantity, final List<Long> userIds) {
 
         final ProductModel productModel = productId != null ?
-                this.productService.getReferenceById(productId) :
+                this.productService.getById(productId) :
                 null;
         final List<UserEntity> userEntitys = this.userService.getAllByIds(userIds);
 
@@ -50,7 +50,7 @@ public class OrderBusinessService {
     @OptimisticLockingRetry
     public OrderTable addProduct(final Long orderId, final Long productId) {
 
-        final ProductModel entity = this.productService.getReferenceById(productId);
+        final ProductModel entity = this.productService.getById(productId);
 
         LOGGER.info("Adding ProductModel with ID {} to OrderTable with ID {}", productId, orderId);
 
@@ -66,7 +66,7 @@ public class OrderBusinessService {
     @OptimisticLockingRetry
     public OrderTable addUsers(final Long orderId, final Long userId) {
 
-        final UserEntity entity = this.userService.getReferenceById(userId);
+        final UserEntity entity = this.userService.getById(userId);
 
         LOGGER.info("Adding UserEntity with ID {} to OrderTable with ID {}", userId, orderId);
 
@@ -82,7 +82,7 @@ public class OrderBusinessService {
     @OptimisticLockingRetry
     public OrderTable removeUsers(final Long orderId, final Long userId) {
 
-        final UserEntity entity = this.userService.getReferenceById(userId);
+        final UserEntity entity = this.userService.getById(userId);
 
         LOGGER.info("Removing UserEntity with ID {} from OrderTable with ID {}", userId, orderId);
 

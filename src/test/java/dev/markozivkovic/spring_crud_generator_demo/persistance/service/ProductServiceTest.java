@@ -31,7 +31,6 @@ import dev.markozivkovic.spring_crud_generator_demo.persistance.repository.Produ
 
 @ExtendWith(SpringExtension.class)
 class ProductServiceTest {
-
     
     @MockitoBean
     private ProductRepository productRepository;
@@ -304,21 +303,7 @@ class ProductServiceTest {
 
         verify(this.productRepository).findById(id);
     }
-    @Test
-    void getReferenceById() {
 
-        final ProductModel product = Instancio.create(ProductModel.class);
-        final Long id = product.getId();
-
-        when(this.productRepository.getReferenceById(id))
-                .thenReturn(product);
-
-        final ProductModel result = this.productService.getReferenceById(id);
-
-        verifyProduct(result, product);
-
-        verify(this.productRepository).getReferenceById(id);
-    }
 
     private void verifyProduct(final ProductModel result, final ProductModel productModel) {
 

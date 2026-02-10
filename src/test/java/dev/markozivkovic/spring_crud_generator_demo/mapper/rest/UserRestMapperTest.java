@@ -45,7 +45,36 @@ class UserRestMapperTest {
             verifyUserTO(result, userEntity);
         });
     }
+    @Test
+    void mapUserEntityToUserTOSimple() {
 
+        final UserEntity userEntity = Instancio.create(UserEntity.class);
+
+        final UserTO result = this.userMapper.mapUserEntityToUserTOSimple(userEntity);
+
+        verifyUserTOSimple(result, userEntity);
+    }
+
+    @Test
+    void mapUserEntityToUserTOSimple_list() {
+
+        final List<UserEntity> userEntitys = Instancio.ofList(UserEntity.class)
+                .size(10)
+                .create();
+
+        final List<UserTO> results = this.userMapper.mapUserEntityToUserTOSimple(userEntitys);
+
+        results.forEach(result -> {
+
+            final UserEntity userEntity = userEntitys.stream()
+                    .filter(obj -> obj.getUserId().equals(result.userId()))
+                    .findFirst()
+                    .orElseThrow();
+            
+            verifyUserTOSimple(result, userEntity);
+        });
+    }
+    
     @Test
     void mapUserTOToUserEntity() {
 
@@ -115,6 +144,15 @@ class UserRestMapperTest {
         assertThat(result.password()).isEqualTo(userEntity.getPassword());
         assertThat(result.roles()).isEqualTo(userEntity.getRoles());
         assertThat(result.permissions()).isEqualTo(userEntity.getPermissions());
+    }
+
+    private void verifyUserTOSimple(final UserTO result, final UserEntity userEntity) {
+
+        assertThat(result).isNotNull();
+        assertThat(result.userId()).isEqualTo(userEntity.getUserId());
+        assertThat(result.username()).isEqualTo(userEntity.getUsername());
+        assertThat(result.email()).isEqualTo(userEntity.getEmail());
+        assertThat(result.password()).isEqualTo(userEntity.getPassword());
     }
 
     private void verifyUserEntity(final UserEntity result, final UserTO userTO) {

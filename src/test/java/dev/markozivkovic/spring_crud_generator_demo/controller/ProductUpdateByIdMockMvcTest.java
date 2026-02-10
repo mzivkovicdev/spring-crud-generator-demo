@@ -69,7 +69,7 @@ class ProductUpdateByIdMockMvcTest {
         final ProductModel productModel = Instancio.create(ProductModel.class);
         final Long id = productModel.getId();
         final ProductUpdatePayload body = Instancio.create(ProductUpdatePayload.class);
-        body.name(generateString(10000));
+        body.name(generateString(1));
 
         when(this.productService.updateById(id, body.getName(), body.getPrice(), body.getUuid(), body.getBirthDate(), body.getStatus() != null ? StatusEnum.valueOf(body.getStatus().name()) : null)).thenReturn(productModel);
 
@@ -106,7 +106,7 @@ class ProductUpdateByIdMockMvcTest {
         final ProductModel productModel = Instancio.create(ProductModel.class);
         final Long id = productModel.getId();
         final ProductUpdatePayload body = Instancio.create(ProductUpdatePayload.class);
-        body.name(generateString(10010));
+        body.name(generateString(10001));
 
         this.mockMvc.perform(put("/api/products/{id}", id)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)

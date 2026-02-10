@@ -29,7 +29,6 @@ import dev.markozivkovic.spring_crud_generator_demo.persistance.repository.UserR
 
 @ExtendWith(SpringExtension.class)
 class UserServiceTest {
-
     
     @MockitoBean
     private UserRepository userRepository;
@@ -204,20 +203,6 @@ class UserServiceTest {
         });
 
         verify(this.userRepository).findAllById(ids);
-    }    @Test
-    void getReferenceById() {
-
-        final UserEntity user = Instancio.create(UserEntity.class);
-        final Long userId = user.getUserId();
-
-        when(this.userRepository.getReferenceById(userId))
-                .thenReturn(user);
-
-        final UserEntity result = this.userService.getReferenceById(userId);
-
-        verifyUser(result, user);
-
-        verify(this.userRepository).getReferenceById(userId);
     }
 
     private void verifyUser(final UserEntity result, final UserEntity userEntity) {

@@ -15,6 +15,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.TableGenerator;
@@ -24,6 +26,12 @@ import dev.markozivkovic.spring_crud_generator_demo.myenums.StatusEnum;
 
 @Entity
 @Table(name = "product_table")
+@NamedEntityGraph(
+    name = "Product.withUsers",
+    attributeNodes = {
+        @NamedAttributeNode("users")
+    }
+)
 public class ProductModel {
 
     @Id

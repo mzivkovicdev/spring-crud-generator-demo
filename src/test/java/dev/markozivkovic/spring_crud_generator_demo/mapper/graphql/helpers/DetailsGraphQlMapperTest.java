@@ -44,7 +44,6 @@ class DetailsGraphQlMapperTest {
             verifyDetailsTO(result, details);
         });
     }
-
     @Test
     void mapDetailsTOToDetails() {
 

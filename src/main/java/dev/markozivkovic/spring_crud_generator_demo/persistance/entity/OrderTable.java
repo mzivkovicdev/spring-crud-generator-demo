@@ -13,12 +13,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 
 @Entity
 @Table(name = "order_table")
+@NamedEntityGraph(
+    name = "Order.withUsers",
+    attributeNodes = {
+        @NamedAttributeNode("users")
+    }
+)
 public class OrderTable {
 
     @Id

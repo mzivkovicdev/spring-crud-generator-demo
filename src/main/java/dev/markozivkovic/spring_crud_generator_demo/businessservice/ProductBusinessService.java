@@ -45,7 +45,7 @@ public class ProductBusinessService {
     @OptimisticLockingRetry
     public ProductModel addUsers(final Long id, final Long userId) {
 
-        final UserEntity entity = this.userService.getReferenceById(userId);
+        final UserEntity entity = this.userService.getById(userId);
 
         LOGGER.info("Adding UserEntity with ID {} to ProductModel with ID {}", userId, id);
 
@@ -61,7 +61,7 @@ public class ProductBusinessService {
     @OptimisticLockingRetry
     public ProductModel removeUsers(final Long id, final Long userId) {
 
-        final UserEntity entity = this.userService.getReferenceById(userId);
+        final UserEntity entity = this.userService.getById(userId);
 
         LOGGER.info("Removing UserEntity with ID {} from ProductModel with ID {}", userId, id);
 

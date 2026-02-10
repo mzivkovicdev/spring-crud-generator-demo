@@ -32,7 +32,6 @@ import dev.markozivkovic.spring_crud_generator_demo.persistance.repository.Order
 
 @ExtendWith(SpringExtension.class)
 class OrderServiceTest {
-
     
     @MockitoBean
     private OrderRepository orderRepository;

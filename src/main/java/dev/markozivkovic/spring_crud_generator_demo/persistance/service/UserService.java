@@ -29,7 +29,7 @@ public class UserService {
     }
     
     
-    @Cacheable(value = "user", key = "#userId")
+    @Cacheable(value = "userEntity", key = "#userId")
     public UserEntity getById(final Long userId) {
 
         return this.repository.findById(userId)
@@ -51,7 +51,7 @@ public class UserService {
     }
         
     @OptimisticLockingRetry
-    @CachePut(value = "user", key = "#result.userId")
+    @CachePut(value = "userEntity", key = "#result.userId")
     public UserEntity create(final String username, final String email, final String password, final Details details, final List<String> roles, final List<String> permissions) {
 
         LOGGER.info("Creating new user");
@@ -60,7 +60,7 @@ public class UserService {
     }
         
     @OptimisticLockingRetry
-    @CachePut(value = "user", key = "#userId")
+    @CachePut(value = "userEntity", key = "#userId")
     public UserEntity updateById(final Long userId, final String username, final String email, final String password, final Details details, final List<String> roles, final List<String> permissions) {
 
         final UserEntity existing = this.getById(userId);
@@ -78,7 +78,7 @@ public class UserService {
     }
         
     @OptimisticLockingRetry
-    @CacheEvict(value = "user", key = "#userId")
+    @CacheEvict(value = "userEntity", key = "#userId")
     public void deleteById(final Long userId) {
 
         LOGGER.info("Deleting user with id {}", userId);
@@ -94,9 +94,4 @@ public class UserService {
         return this.repository.findAllById(ids);
     }
 
-
-    public UserEntity getReferenceById(final Long userId) {
-
-        return this.repository.getReferenceById(userId);
-    }
 }

@@ -45,7 +45,36 @@ class ProductRestMapperTest {
             verifyProductTO(result, productModel);
         });
     }
+    @Test
+    void mapProductModelToProductTOSimple() {
 
+        final ProductModel productModel = Instancio.create(ProductModel.class);
+
+        final ProductTO result = this.productMapper.mapProductModelToProductTOSimple(productModel);
+
+        verifyProductTOSimple(result, productModel);
+    }
+
+    @Test
+    void mapProductModelToProductTOSimple_list() {
+
+        final List<ProductModel> productModels = Instancio.ofList(ProductModel.class)
+                .size(10)
+                .create();
+
+        final List<ProductTO> results = this.productMapper.mapProductModelToProductTOSimple(productModels);
+
+        results.forEach(result -> {
+
+            final ProductModel productModel = productModels.stream()
+                    .filter(obj -> obj.getId().equals(result.id()))
+                    .findFirst()
+                    .orElseThrow();
+            
+            verifyProductTOSimple(result, productModel);
+        });
+    }
+    
     @Test
     void mapProductTOToProductModel() {
 
@@ -107,6 +136,17 @@ class ProductRestMapperTest {
     }
 
     private void verifyProductTO(final ProductTO result, final ProductModel productModel) {
+
+        assertThat(result).isNotNull();
+        assertThat(result.id()).isEqualTo(productModel.getId());
+        assertThat(result.name()).isEqualTo(productModel.getName());
+        assertThat(result.price()).isEqualTo(productModel.getPrice());
+        assertThat(result.uuid()).isEqualTo(productModel.getUuid());
+        assertThat(result.birthDate()).isEqualTo(productModel.getBirthDate());
+        assertThat(result.status()).isEqualTo(productModel.getStatus());
+    }
+
+    private void verifyProductTOSimple(final ProductTO result, final ProductModel productModel) {
 
         assertThat(result).isNotNull();
         assertThat(result.id()).isEqualTo(productModel.getId());

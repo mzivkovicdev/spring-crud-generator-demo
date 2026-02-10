@@ -34,7 +34,6 @@ import dev.markozivkovic.spring_crud_generator_demo.mapper.rest.OrderRestMapper;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.OrderTable;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.service.OrderService;
 
-import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.json.JsonMapper;
 
 @WebMvcTest(excludeAutoConfiguration = {
@@ -131,7 +130,7 @@ class OrderGetMockMvcTest {
                     .findFirst()
                     .orElseThrow();
 
-            verifyOrder(result, orderTable);
+            verifyOrderSimple(result, orderTable);
         });
 
         verify(this.orderService).getAll(pageNumber, pageSize);
@@ -178,4 +177,12 @@ class OrderGetMockMvcTest {
         assertThat(result).isEqualTo(mappedOrderTable);
     }
 
+    private void verifyOrderSimple(final OrderPayload result, final OrderTable orderTable) {
+        
+        assertThat(result).isNotNull();
+        final OrderPayload mappedOrderTable = orderRestMapper.mapOrderTOToOrderPayload(
+                orderRestMapper.mapOrderTableToOrderTOSimple(orderTable)
+        );
+        assertThat(result).isEqualTo(mappedOrderTable);
+    }
 }

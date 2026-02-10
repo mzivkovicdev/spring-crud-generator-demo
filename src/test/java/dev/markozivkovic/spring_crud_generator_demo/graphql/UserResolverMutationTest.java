@@ -208,4 +208,5 @@ class UserResolverMutationTest {
             .errors()
             .satisfy(errors -> assertThat(errors).isNotEmpty());
     }
+
 }

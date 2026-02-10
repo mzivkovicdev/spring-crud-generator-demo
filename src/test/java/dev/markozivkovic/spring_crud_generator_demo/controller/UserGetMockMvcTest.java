@@ -32,7 +32,6 @@ import dev.markozivkovic.spring_crud_generator_demo.mapper.rest.UserRestMapper;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.UserEntity;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.service.UserService;
 
-import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.json.JsonMapper;
 
 @WebMvcTest(excludeAutoConfiguration = {
@@ -126,7 +125,7 @@ class UserGetMockMvcTest {
                     .findFirst()
                     .orElseThrow();
 
-            verifyUser(result, userEntity);
+            verifyUserSimple(result, userEntity);
         });
 
         verify(this.userService).getAll(pageNumber, pageSize);
@@ -173,4 +172,12 @@ class UserGetMockMvcTest {
         assertThat(result).isEqualTo(mappedUserEntity);
     }
 
+    private void verifyUserSimple(final UserPayload result, final UserEntity userEntity) {
+        
+        assertThat(result).isNotNull();
+        final UserPayload mappedUserEntity = userRestMapper.mapUserTOToUserPayload(
+                userRestMapper.mapUserEntityToUserTOSimple(userEntity)
+        );
+        assertThat(result).isEqualTo(mappedUserEntity);
+    }
 }

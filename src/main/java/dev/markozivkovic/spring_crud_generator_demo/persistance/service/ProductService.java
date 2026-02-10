@@ -38,7 +38,7 @@ public class ProductService {
      * @param id The unique identifier for the product
      * @return Found ProductModel {@link ProductModel}
      */
-    @Cacheable(value = "product", key = "#id")
+    @Cacheable(value = "productModel", key = "#id")
     public ProductModel getById(final Long id) {
 
         return this.repository.findById(id)
@@ -70,7 +70,7 @@ public class ProductService {
      * @return the created {@link ProductModel}
      */
     @OptimisticLockingRetry
-    @CachePut(value = "product", key = "#result.id")
+    @CachePut(value = "productModel", key = "#result.id")
     public ProductModel create(final String name, final String price, final List<UserEntity> users, final UUID uuid, final LocalDate birthDate, final StatusEnum status) {
 
         LOGGER.info("Creating new product");
@@ -90,7 +90,7 @@ public class ProductService {
      * @return updated {@link ProductModel}
      */
     @OptimisticLockingRetry
-    @CachePut(value = "product", key = "#id")
+    @CachePut(value = "productModel", key = "#id")
     public ProductModel updateById(final Long id, final String name, final String price, final UUID uuid, final LocalDate birthDate, final StatusEnum status) {
 
         final ProductModel existing = this.getById(id);
@@ -112,7 +112,7 @@ public class ProductService {
     * @param id The unique identifier for the product
     */
     @OptimisticLockingRetry
-    @CacheEvict(value = "product", key = "#id")
+    @CacheEvict(value = "productModel", key = "#id")
     public void deleteById(final Long id) {
 
         LOGGER.info("Deleting product with id {}", id);
@@ -129,7 +129,7 @@ public class ProductService {
      * @return Added {@link UserEntity} to {@link ProductModel}
      */
     @OptimisticLockingRetry
-    @CachePut(value = "product", key = "#id")
+    @CachePut(value = "productModel", key = "#id")
     public ProductModel addUsers(final Long id, final UserEntity users) {
 
         final ProductModel entity = this.getById(id);
@@ -149,7 +149,7 @@ public class ProductService {
      * @return Removed {@link UserEntity} from {@link ProductModel}
      */
     @OptimisticLockingRetry
-    @CachePut(value = "product", key = "#id")
+    @CachePut(value = "productModel", key = "#id")
     public ProductModel removeUsers(final Long id, final UserEntity users) {
 
         final ProductModel entity = this.getById(id);
@@ -163,14 +163,4 @@ public class ProductService {
         return this.repository.saveAndFlush(entity);
     }
 
-    /**
-    * Get reference of the {@link ProductModel}
-    *
-    * @param id The unique identifier for the product
-    * @return Reference of {@link ProductModel}
-    */
-    public ProductModel getReferenceById(final Long id) {
-
-        return this.repository.getReferenceById(id);
-    }
 }

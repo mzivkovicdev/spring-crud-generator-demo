@@ -69,7 +69,7 @@ public class UserController implements UsersApi {
                 .number(pageObject.getNumber())
                 .content(
                     userMapper.mapUserTOToUserPayload(
-                        userMapper.mapUserEntityToUserTO(
+                        userMapper.mapUserEntityToUserTOSimple(
                             pageObject.getContent()
                         )
                     )

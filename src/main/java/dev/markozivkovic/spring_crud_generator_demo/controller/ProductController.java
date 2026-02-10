@@ -81,7 +81,7 @@ public class ProductController implements ProductsApi {
                 .number(pageObject.getNumber())
                 .content(
                     productMapper.mapProductTOToProductPayload(
-                        productMapper.mapProductModelToProductTO(
+                        productMapper.mapProductModelToProductTOSimple(
                             pageObject.getContent()
                         )
                     )

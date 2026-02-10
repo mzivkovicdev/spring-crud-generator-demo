@@ -49,7 +49,7 @@ public class UserResolver {
             pageObject.getTotalElements(),
             pageObject.getSize(),
             pageObject.getNumber(),
-            userMapper.mapUserEntityToUserTO(pageObject.getContent())
+            userMapper.mapUserEntityToUserTOSimple(pageObject.getContent())
         );
     }
     

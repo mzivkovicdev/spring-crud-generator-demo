@@ -66,13 +66,13 @@ class OrderBusinessServiceTest {
                 .toList();
         final Integer quantity = orderTable.getQuantity();
 
-        when(this.productService.getReferenceById(productId)).thenReturn(productModel);
+        when(this.productService.getById(productId)).thenReturn(productModel);
         when(this.userService.getAllByIds(userIds)).thenReturn(userEntitys);
         when(this.orderService.create(productModel, quantity, userEntitys)).thenReturn(orderTable);
 
         final OrderTable result = this.orderBusinessService.create(productId, quantity, userIds);
 
-        verify(this.productService).getReferenceById(productId);
+        verify(this.productService).getById(productId);
         verify(this.userService).getAllByIds(userIds);
         verify(this.orderService).create(productModel, quantity, userEntitys);
 
@@ -87,12 +87,12 @@ class OrderBusinessServiceTest {
         final ProductModel productModel = Instancio.create(ProductModel.class);
         final Long productId = productModel.getId();
 
-        when(this.productService.getReferenceById(productId)).thenReturn(productModel);
+        when(this.productService.getById(productId)).thenReturn(productModel);
         when(this.orderService.addProduct(orderId, productModel)).thenReturn(orderTable);
 
         final OrderTable result = this.orderBusinessService.addProduct(orderId, productId);
 
-        verify(this.productService).getReferenceById(productId);
+        verify(this.productService).getById(productId);
         verify(this.orderService).addProduct(orderId, productModel);
 
         verifyOrder(result, orderTable);
@@ -106,12 +106,12 @@ class OrderBusinessServiceTest {
         final UserEntity userEntity = Instancio.create(UserEntity.class);
         final Long userId = userEntity.getUserId();
 
-        when(this.userService.getReferenceById(userId)).thenReturn(userEntity);
+        when(this.userService.getById(userId)).thenReturn(userEntity);
         when(this.orderService.addUsers(orderId, userEntity)).thenReturn(orderTable);
 
         final OrderTable result = this.orderBusinessService.addUsers(orderId, userId);
 
-        verify(this.userService).getReferenceById(userId);
+        verify(this.userService).getById(userId);
         verify(this.orderService).addUsers(orderId, userEntity);
 
         verifyOrder(result, orderTable);
@@ -126,12 +126,12 @@ class OrderBusinessServiceTest {
         final UserEntity userEntity = Instancio.create(UserEntity.class);
         final Long userId = userEntity.getUserId();
 
-        when(this.userService.getReferenceById(userId)).thenReturn(userEntity);
+        when(this.userService.getById(userId)).thenReturn(userEntity);
         when(this.orderService.removeUsers(orderId, userEntity)).thenReturn(orderTable);
 
         final OrderTable result = this.orderBusinessService.removeUsers(orderId, userId);
 
-        verify(this.userService).getReferenceById(userId);
+        verify(this.userService).getById(userId);
         verify(this.orderService).removeUsers(orderId, userEntity);
 
         verifyOrder(result, orderTable);

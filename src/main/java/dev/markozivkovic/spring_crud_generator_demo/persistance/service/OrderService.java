@@ -36,7 +36,7 @@ public class OrderService {
      * @param id The unique identifier for the order
      * @return Found OrderTable {@link OrderTable}
      */
-    @Cacheable(value = "order", key = "#orderId")
+    @Cacheable(value = "orderTable", key = "#orderId")
     public OrderTable getById(final Long orderId) {
 
         return this.repository.findById(orderId)
@@ -64,7 +64,7 @@ public class OrderService {
      * @return the created {@link OrderTable}
      */
     @OptimisticLockingRetry
-    @CachePut(value = "order", key = "#result.orderId")
+    @CachePut(value = "orderTable", key = "#result.orderId")
     public OrderTable create(final ProductModel product, final Integer quantity, final List<UserEntity> users) {
 
         LOGGER.info("Creating new order");
@@ -79,7 +79,7 @@ public class OrderService {
      * @return updated {@link OrderTable}
      */
     @OptimisticLockingRetry
-    @CachePut(value = "order", key = "#orderId")
+    @CachePut(value = "orderTable", key = "#orderId")
     public OrderTable updateById(final Long orderId, final Integer quantity) {
 
         final OrderTable existing = this.getById(orderId);
@@ -97,7 +97,7 @@ public class OrderService {
     * @param orderId The unique identifier for the order
     */
     @OptimisticLockingRetry
-    @CacheEvict(value = "order", key = "#orderId")
+    @CacheEvict(value = "orderTable", key = "#orderId")
     public void deleteById(final Long orderId) {
 
         LOGGER.info("Deleting order with id {}", orderId);
@@ -115,7 +115,7 @@ public class OrderService {
      * @return Added {@link ProductModel} to {@link OrderTable}
      */
     @OptimisticLockingRetry
-    @CachePut(value = "order", key = "#orderId")
+    @CachePut(value = "orderTable", key = "#orderId")
     public OrderTable addProduct(final Long orderId, final ProductModel product) {
 
         final OrderTable entity = this.getById(orderId);
@@ -135,7 +135,7 @@ public class OrderService {
      * @return Added {@link UserEntity} to {@link OrderTable}
      */
     @OptimisticLockingRetry
-    @CachePut(value = "order", key = "#orderId")
+    @CachePut(value = "orderTable", key = "#orderId")
     public OrderTable addUsers(final Long orderId, final UserEntity users) {
 
         final OrderTable entity = this.getById(orderId);
@@ -156,7 +156,7 @@ public class OrderService {
      * @return Removed {@link ProductModel} from {@link OrderTable}
      */
     @OptimisticLockingRetry
-    @CachePut(value = "order", key = "#orderId")
+    @CachePut(value = "orderTable", key = "#orderId")
     public OrderTable removeProduct(final Long orderId) {
 
         final OrderTable entity = this.getById(orderId);
@@ -176,7 +176,7 @@ public class OrderService {
      * @return Removed {@link UserEntity} from {@link OrderTable}
      */
     @OptimisticLockingRetry
-    @CachePut(value = "order", key = "#orderId")
+    @CachePut(value = "orderTable", key = "#orderId")
     public OrderTable removeUsers(final Long orderId, final UserEntity users) {
 
         final OrderTable entity = this.getById(orderId);
