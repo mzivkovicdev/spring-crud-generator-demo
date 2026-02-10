@@ -3,9 +3,9 @@ spring:
     name: spring-crud-generator-demo
 
   datasource:
-    url: jdbc:posgresql://localhost:5432/spring-crud-generator-demo
-    username: app
-    password: app
+    url: ${SPRING_DATASOURCE_URL:jdbc:posgresql://localhost:5432/spring-crud-generator-demo}
+    username: ${SPRING_DATASOURCE_USERNAME:app}
+    password: ${SPRING_DATASOURCE_PASSWORD:app}
 
   flyway:
     enabled: true
@@ -16,8 +16,8 @@ spring:
 
   data:
     redis:
-      host: localhost
-      port: 6379
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
       timeout: 10s
   
   jpa:
