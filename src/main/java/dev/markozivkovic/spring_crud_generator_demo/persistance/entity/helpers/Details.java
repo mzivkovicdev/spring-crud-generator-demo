@@ -38,6 +38,11 @@ public class Details {
 
 
     @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName);
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (o == this)
             return true;
@@ -47,11 +52,6 @@ public class Details {
         final Details other = (Details) o;
         return Objects.equals(firstName, other.firstName)
                 && Objects.equals(lastName, other.lastName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(firstName, lastName);
     }
 
     @Override
