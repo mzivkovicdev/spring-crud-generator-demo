@@ -1,7 +1,7 @@
 configuration:
   database: postgresql
   javaVersion: 21
-  springBootVersion: 4
+  springBootVersion: 4 # valid formats are also 4.0.1 or 4.0
   optimisticLocking: true
   docker:
     dockerfile: true
@@ -17,6 +17,7 @@ configuration:
     enabled: true
     type: REDIS
     expiration: 5
+    # maxSize: 10000 use for CAFFEINE
   openApi:
     apiSpec: true
     generateResources: true
@@ -35,6 +36,7 @@ configuration:
     optimisticLocking.backoff.delayMs: 100
     optimisticLocking.backoff.multiplier: 2.0
     optimisticLocking.backoff.maxDelayMs: 1000
+    spring.jpa.open-in-view: false
 packages:
   annotations: annotation
   businessservices: businessservice
@@ -66,12 +68,21 @@ entities:
           nullable: false
           updateable: true
           unique: true
-          length: 10000
+          length: 100
+        validation:
+          required: true
+          notBlank: true
+          minLength: 10
+          maxLength: 100
       - name: price
         description: "The price of the product"
-        type: String
+        type: Integer
         column:
           nullable: false
+        validation:
+          required: true
+          min: 1
+          max: 100
       - name: users
         type: UserEntity
         relation:
@@ -79,14 +90,22 @@ entities:
           fetch: LAZY
           cascade: MERGE
           joinColumn: product_id
+        validation:
+          required: true
+          minItems: 1
+          maxItems: 10
       - name: uuid
         description: "The unique identifier for the product"
         type: UUID
         column:
           nullable: false
-      - name: birthDate
-        description: "The date and time the product was created"
+        validation:
+          required: true
+      - name: releaseDate
+        description: "The release date of the product"
         type: LocalDate
+      - name: details
+        type: JSON<List<ProductDetails>>
       - name: status
         description: "The status of the product"
         type: Enum
@@ -110,10 +129,16 @@ entities:
           joinColumn: product_id
           fetch: EAGER
           cascade: MERGE
+        validation:
+          required: true
       - name: quantity
         type: Integer
         column:
           nullable: false
+        validation:
+          required: true
+          min: 1
+          max: 100
       - name: users
         type: UserEntity
         relation:
@@ -124,6 +149,10 @@ entities:
             name: order_user_table
             joinColumn: order_id
             inverseJoinColumn: user_id
+        validation:
+          required: true
+          minItems: 1
+          maxItems: 5
   - name: UserEntity
     storageName: user_table
     description: "Represents a user"
@@ -136,18 +165,35 @@ entities:
         type: String
       - name: email
         type: String
+        validation:
+          required: true
+          email: true
       - name: password
         type: String
+        validation:
+          required: true
+          pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
       - name: details
         type: JSON<Details>
       - type: List<String>
         name: roles
       - type: List<String>
         name: permissions
+        validation:
+          notEmpty: true
   - name: Details
     description: "Represents a user details"
     fields:
       - name: firstName
         type: String
       - name: lastName
+        type: String
+  - name: ProductDetails
+    description: "Represents a product details"
+    fields:
+      - name: description
+        type: String
+      - name: weight
+        type: Double
+      - name: option
         type: String

@@ -65,7 +65,7 @@ class OrderResolverMutationTest {
     void createOrder() {
 
         final OrderTable saved = Instancio.create(OrderTable.class);
-        final OrderCreateTO input = Instancio.create(OrderCreateTO.class);
+        final OrderCreateTO input = generateOrderCreateTO();
         final Map<String, Object> inputVars = this.mapper.convertValue(
                 input, new TypeReference<Map<String,Object>>() {}
         );
@@ -98,6 +98,29 @@ class OrderResolverMutationTest {
     }
 
     @Test
+    void createOrder_validationFails() {
+        
+        final OrderCreateTO input = generateInvalidOrderCreateTO();
+        final Map<String, Object> inputVars = this.mapper.convertValue(
+                input, new TypeReference<Map<String,Object>>() {}
+        );
+
+        final String mutation = """
+            mutation($input: OrderCreateInput!) {
+              createOrder(input: $input) {
+                orderId
+              }
+            }
+        """;
+
+        this.graphQlTester.document(mutation)
+            .variable("input", inputVars)
+            .execute()
+            .errors()
+            .satisfy(errors -> assertThat(errors).isNotEmpty());
+    }
+
+    @Test
     void createOrder_missingInput_error() {
 
         final String mutation = """
@@ -119,7 +142,7 @@ class OrderResolverMutationTest {
 
         final OrderTable updated = Instancio.create(OrderTable.class);
         final Long orderId = updated.getOrderId();
-        final OrderUpdateTO input = Instancio.create(OrderUpdateTO.class);
+        final OrderUpdateTO input = generateOrderUpdateTO();
         final Map<String, Object> inputVars = this.mapper.convertValue(
                 input, new TypeReference<Map<String,Object>>() {}
         );
@@ -151,6 +174,32 @@ class OrderResolverMutationTest {
 
         assertThat(result).isNotNull();
         assertThat(result.orderId()).isEqualTo(updated.getOrderId());
+    }
+
+    @Test
+    void updateOrder_validationFails() {
+
+        final OrderTable updated = Instancio.create(OrderTable.class);
+        final Long orderId = updated.getOrderId();
+        final OrderUpdateTO input = generateInvalidOrderUpdateTO();
+        final Map<String, Object> inputVars = this.mapper.convertValue(
+                input, new TypeReference<Map<String,Object>>() {}
+        );
+
+        final String mutation = """
+            mutation($id: ID!, $input: OrderUpdateInput!) {
+              updateOrder(id: $id, input: $input) {
+                orderId
+              }
+            }
+        """;
+
+        this.graphQlTester.document(mutation)
+            .variable("id", orderId)
+            .variable("input", inputVars)
+            .execute()
+            .errors()
+            .satisfy(errors -> assertThat(errors).isNotEmpty());
     }
 
     @Test
@@ -445,6 +494,36 @@ class OrderResolverMutationTest {
             .execute()
             .errors()
             .satisfy(errors -> assertThat(errors).isNotEmpty());
+    }
+
+    private static OrderCreateTO generateOrderCreateTO() {
+        final OrderCreateTO input = Instancio.create(OrderCreateTO.class);
+        return new OrderCreateTO(
+                input.productId(),
+                1,
+                input.usersIds()
+        );
+    }
+
+    private static OrderCreateTO generateInvalidOrderCreateTO() {
+        final OrderCreateTO input = Instancio.create(OrderCreateTO.class);
+        return new OrderCreateTO(
+                input.productId(),
+                101,
+                input.usersIds()
+        );
+    }
+
+    private static OrderUpdateTO generateOrderUpdateTO() {
+        return new OrderUpdateTO(
+                1
+        );
+    }
+
+    private static OrderUpdateTO generateInvalidOrderUpdateTO() {
+        return new OrderUpdateTO(
+                101
+        );
     }
 
 }

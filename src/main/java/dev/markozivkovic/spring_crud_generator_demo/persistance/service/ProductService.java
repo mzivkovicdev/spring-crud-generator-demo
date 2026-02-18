@@ -17,6 +17,7 @@ import dev.markozivkovic.spring_crud_generator_demo.annotation.OptimisticLocking
 import dev.markozivkovic.spring_crud_generator_demo.exception.InvalidResourceStateException;
 import dev.markozivkovic.spring_crud_generator_demo.exception.ResourceNotFoundException;
 import dev.markozivkovic.spring_crud_generator_demo.myenums.StatusEnum;
+import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.helpers.ProductDetails;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.ProductModel;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.UserEntity;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.repository.ProductRepository;
@@ -65,17 +66,17 @@ public class ProductService {
      * @param name The name of the product
      * @param price The price of the product
      * @param uuid The unique identifier for the product
-     * @param birthDate The date and time the product was created
+     * @param releaseDate The release date of the product
      * @param status The status of the product
      * @return the created {@link ProductModel}
      */
     @OptimisticLockingRetry
     @CachePut(value = "productModel", key = "#result.id")
-    public ProductModel create(final String name, final String price, final List<UserEntity> users, final UUID uuid, final LocalDate birthDate, final StatusEnum status) {
+    public ProductModel create(final String name, final Integer price, final List<UserEntity> users, final UUID uuid, final LocalDate releaseDate, final List<ProductDetails> details, final StatusEnum status) {
 
         LOGGER.info("Creating new product");
 
-        return this.repository.saveAndFlush(new ProductModel(name, price, users, uuid, birthDate, status));
+        return this.repository.saveAndFlush(new ProductModel(name, price, users, uuid, releaseDate, details, status));
     }
         
     /**
@@ -85,20 +86,21 @@ public class ProductService {
      * @param name The name of the product
      * @param price The price of the product
      * @param uuid The unique identifier for the product
-     * @param birthDate The date and time the product was created
+     * @param releaseDate The release date of the product
      * @param status The status of the product
      * @return updated {@link ProductModel}
      */
     @OptimisticLockingRetry
     @CachePut(value = "productModel", key = "#id")
-    public ProductModel updateById(final Long id, final String name, final String price, final UUID uuid, final LocalDate birthDate, final StatusEnum status) {
+    public ProductModel updateById(final Long id, final String name, final Integer price, final UUID uuid, final LocalDate releaseDate, final List<ProductDetails> details, final StatusEnum status) {
 
         final ProductModel existing = this.getById(id);
 
         existing.setName(name)
             .setPrice(price)
             .setUuid(uuid)
-            .setBirthDate(birthDate)
+            .setReleaseDate(releaseDate)
+            .setDetails(details)
             .setStatus(status);
 
         LOGGER.info("Updating product with id {}", id);

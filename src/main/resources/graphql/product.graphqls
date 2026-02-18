@@ -3,31 +3,45 @@ enum ProductStatusEnum {
   INACTIVE
 }
 
+type ProductDetails {
+  description: String
+  weight: BigDecimal
+  option: String
+}
+
+input ProductDetailsInput {
+  description: String
+  weight: BigDecimal
+  option: String
+}
 
 type Product {
   id: Long!
   name: String!
-  price: String!
+  price: Int!
   users: [User!]
   uuid: UUID!
-  birthDate: Date
+  releaseDate: Date
+  details: [ProductDetails]
   status: ProductStatusEnum
 }
 
 input ProductCreateInput {
   name: String!
-  price: String!
+  price: Int!
   usersIds: [ID!]!
   uuid: UUID!
-  birthDate: Date
+  releaseDate: Date
+  details: [ProductDetailsInput]
   status: ProductStatusEnum
 }
 
 input ProductUpdateInput {
   name: String
-  price: String
+  price: Int
   uuid: UUID
-  birthDate: Date
+  releaseDate: Date
+  details: [ProductDetailsInput]
   status: ProductStatusEnum
 }
 

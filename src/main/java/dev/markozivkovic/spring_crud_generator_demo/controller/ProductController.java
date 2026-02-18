@@ -17,6 +17,7 @@ import dev.markozivkovic.spring_crud_generator_demo.generated.product.model.Prod
 import dev.markozivkovic.spring_crud_generator_demo.generated.product.model.ProductsGet200Response;
 import dev.markozivkovic.spring_crud_generator_demo.generated.product.model.UserInput;
 import dev.markozivkovic.spring_crud_generator_demo.mapper.rest.ProductRestMapper;
+import dev.markozivkovic.spring_crud_generator_demo.mapper.rest.helpers.ProductDetailsRestMapper;
 import dev.markozivkovic.spring_crud_generator_demo.myenums.StatusEnum;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.ProductModel;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.service.ProductService;
@@ -26,6 +27,7 @@ import dev.markozivkovic.spring_crud_generator_demo.persistance.service.ProductS
 public class ProductController implements ProductsApi {
 
     private final ProductRestMapper productMapper = Mappers.getMapper(ProductRestMapper.class);
+    private final ProductDetailsRestMapper productDetailsMapper = Mappers.getMapper(ProductDetailsRestMapper.class);
 
     private final ProductService productService;
     private final ProductBusinessService productBusinessService;
@@ -34,9 +36,9 @@ public class ProductController implements ProductsApi {
         this.productService = productService;
         this.productBusinessService = productBusinessService;
     }
-
-        @Override
-        public ResponseEntity<ProductPayload> productsPost(final ProductCreatePayload body) {
+    
+    @Override
+    public ResponseEntity<ProductPayload> productsPost(final ProductCreatePayload body) {
 
         final List<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 
                 body.getUsers().stream()
@@ -50,7 +52,7 @@ public class ProductController implements ProductsApi {
             productMapper.mapProductTOToProductPayload(
                 productMapper.mapProductModelToProductTO(
                     this.productBusinessService.create(
-                        body.getName(), body.getPrice(), usersIds, body.getUuid(), body.getBirthDate(), statusEnum
+                        body.getName(), body.getPrice(), usersIds, body.getUuid(), body.getReleaseDate(), productDetailsMapper.mapProductDetailsPayloadToProductDetails(body.getDetails()), statusEnum
                     )
                 )
             )
@@ -94,7 +96,7 @@ public class ProductController implements ProductsApi {
         return ResponseEntity.ok(
             productMapper.mapProductTOToProductPayload(
                 productMapper.mapProductModelToProductTO(
-                    this.productService.updateById(id, body.getName(), body.getPrice(), body.getUuid(), body.getBirthDate(), body.getStatus() != null ? StatusEnum.valueOf(body.getStatus().name()) : null)
+                    this.productService.updateById(id, body.getName(), body.getPrice(), body.getUuid(), body.getReleaseDate(), productDetailsMapper.mapProductDetailsPayloadToProductDetails(body.getDetails()), body.getStatus() != null ? StatusEnum.valueOf(body.getStatus().name()) : null)
                 )
             )
         );

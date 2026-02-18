@@ -10,6 +10,7 @@ import java.util.Map;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.graphql.test.autoconfigure.GraphQlTest;
 import org.springframework.boot.graphql.test.autoconfigure.tester.AutoConfigureGraphQlTester;
@@ -22,6 +23,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import dev.markozivkovic.spring_crud_generator_demo.businessservice.ProductBusinessService;
 import dev.markozivkovic.spring_crud_generator_demo.exception.handlers.GlobalGraphQlExceptionHandler;
+import dev.markozivkovic.spring_crud_generator_demo.mapper.graphql.helpers.ProductDetailsGraphQLMapper;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.ProductModel;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.service.ProductService;
 import dev.markozivkovic.spring_crud_generator_demo.transferobject.graphql.ProductCreateTO;
@@ -43,6 +45,7 @@ import tools.jackson.databind.json.JsonMapper;
     "spring.graphql.schema.locations=classpath:graphql/"
 })
 class ProductResolverMutationTest {
+    private final ProductDetailsGraphQLMapper productDetailsMapper = Mappers.getMapper(ProductDetailsGraphQLMapper.class);
 
     @MockitoBean
     private ProductService productService;
@@ -79,7 +82,7 @@ class ProductResolverMutationTest {
         """;
 
         when(productBusinessService.create(
-            input.name(), input.price(), input.usersIds(), input.uuid(), input.birthDate(), input.status()
+            input.name(), input.price(), input.usersIds(), input.uuid(), input.releaseDate(), productDetailsMapper.mapProductDetailsTOToProductDetails(input.details()), input.status()
         )).thenReturn(saved);
 
         final ProductTO result = this.graphQlTester.document(mutation)
@@ -90,7 +93,7 @@ class ProductResolverMutationTest {
             .get();
 
         verify(this.productBusinessService).create(
-            input.name(), input.price(), input.usersIds(), input.uuid(), input.birthDate(), input.status()
+            input.name(), input.price(), input.usersIds(), input.uuid(), input.releaseDate(), productDetailsMapper.mapProductDetailsTOToProductDetails(input.details()), input.status()
         );
 
         assertThat(result).isNotNull();
@@ -157,7 +160,7 @@ class ProductResolverMutationTest {
 
         when(productService.updateById(
             id,
-            input.name(), input.price(), input.uuid(), input.birthDate(), input.status()
+            input.name(), input.price(), input.uuid(), input.releaseDate(), productDetailsMapper.mapProductDetailsTOToProductDetails(input.details()), input.status()
         )).thenReturn(updated);
 
         final ProductTO result = this.graphQlTester.document(mutation)
@@ -169,7 +172,7 @@ class ProductResolverMutationTest {
             .get();
 
         verify(this.productService).updateById(
-                id, input.name(), input.price(), input.uuid(), input.birthDate(), input.status()
+                id, input.name(), input.price(), input.uuid(), input.releaseDate(), productDetailsMapper.mapProductDetailsTOToProductDetails(input.details()), input.status()
         );
 
         assertThat(result).isNotNull();
@@ -391,11 +394,12 @@ class ProductResolverMutationTest {
     private static ProductCreateTO generateProductCreateTO() {
         final ProductCreateTO input = Instancio.create(ProductCreateTO.class);
         return new ProductCreateTO(
-                generateString(1),
-                input.price(),
+                generateString(10),
+                1,
                 input.usersIds(),
                 input.uuid(),
-                input.birthDate(),
+                input.releaseDate(),
+                input.details(),
                 input.status()
         );
     }
@@ -403,11 +407,12 @@ class ProductResolverMutationTest {
     private static ProductCreateTO generateInvalidProductCreateTO() {
         final ProductCreateTO input = Instancio.create(ProductCreateTO.class);
         return new ProductCreateTO(
-                generateString(10001),
-                input.price(),
+                null,
+                101,
                 input.usersIds(),
                 input.uuid(),
-                input.birthDate(),
+                input.releaseDate(),
+                input.details(),
                 input.status()
         );
     }
@@ -415,10 +420,11 @@ class ProductResolverMutationTest {
     private static ProductUpdateTO generateProductUpdateTO() {
         final ProductUpdateTO input = Instancio.create(ProductUpdateTO.class);
         return new ProductUpdateTO(
-                generateString(1),
-                input.price(),
+                generateString(10),
+                1,
                 input.uuid(),
-                input.birthDate(),
+                input.releaseDate(),
+                input.details(),
                 input.status()
         );
     }
@@ -426,10 +432,11 @@ class ProductResolverMutationTest {
     private static ProductUpdateTO generateInvalidProductUpdateTO() {
         final ProductUpdateTO input = Instancio.create(ProductUpdateTO.class);
         return new ProductUpdateTO(
-                generateString(10001),
-                input.price(),
+                null,
+                101,
                 input.uuid(),
-                input.birthDate(),
+                input.releaseDate(),
+                input.details(),
                 input.status()
         );
     }

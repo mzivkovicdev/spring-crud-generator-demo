@@ -31,6 +31,7 @@ import dev.markozivkovic.spring_crud_generator_demo.generated.product.model.Prod
 import dev.markozivkovic.spring_crud_generator_demo.generated.product.model.ProductPayload;
 import dev.markozivkovic.spring_crud_generator_demo.generated.product.model.UserInput;
 import dev.markozivkovic.spring_crud_generator_demo.mapper.rest.ProductRestMapper;
+import dev.markozivkovic.spring_crud_generator_demo.mapper.rest.helpers.ProductDetailsRestMapper;
 import dev.markozivkovic.spring_crud_generator_demo.myenums.StatusEnum;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.ProductModel;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.service.ProductService;
@@ -47,6 +48,7 @@ import tools.jackson.databind.json.JsonMapper;
 class ProductCreateMockMvcTest {
 
     private final ProductRestMapper productRestMapper = Mappers.getMapper(ProductRestMapper.class);
+    private final ProductDetailsRestMapper productDetailsMapper = Mappers.getMapper(ProductDetailsRestMapper.class);
 
     @MockitoBean
     private ProductService productService;
@@ -71,7 +73,8 @@ class ProductCreateMockMvcTest {
 
         final ProductModel productModel = Instancio.create(ProductModel.class);
         final ProductCreatePayload body = Instancio.create(ProductCreatePayload.class);
-        body.name(generateString(1));
+        body.name(generateString(10));
+        body.price(1);
         final List<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 
                 body.getUsers().stream()
                     .map(UserInput::getUserId)
@@ -81,7 +84,7 @@ class ProductCreateMockMvcTest {
                 StatusEnum.valueOf(body.getStatus().name()) : null;
 
         when(this.productBusinessService.create(
-                body.getName(), body.getPrice(), usersIds, body.getUuid(), body.getBirthDate(), statusEnum
+                body.getName(), body.getPrice(), usersIds, body.getUuid(), body.getReleaseDate(), productDetailsMapper.mapProductDetailsPayloadToProductDetails(body.getDetails()), statusEnum
         )).thenReturn(productModel);
 
         final ResultActions resultActions = this.mockMvc.perform(post("/api/products")
@@ -97,7 +100,7 @@ class ProductCreateMockMvcTest {
         verifyProduct(result, productModel);
 
         verify(this.productBusinessService).create(
-                body.getName(), body.getPrice(), usersIds, body.getUuid(), body.getBirthDate(), statusEnum
+                body.getName(), body.getPrice(), usersIds, body.getUuid(), body.getReleaseDate(), productDetailsMapper.mapProductDetailsPayloadToProductDetails(body.getDetails()), statusEnum
         );
     }
 
@@ -105,7 +108,8 @@ class ProductCreateMockMvcTest {
     void productsPost_validationFails() throws Exception {
 
         final ProductCreatePayload body = Instancio.create(ProductCreatePayload.class);
-        body.name(generateString(10001));
+        body.name(null);
+        body.price(101);
 
         this.mockMvc.perform(post("/api/products")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)

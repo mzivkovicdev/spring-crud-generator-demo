@@ -7,10 +7,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
+import dev.markozivkovic.spring_crud_generator_demo.mapper.graphql.helpers.ProductDetailsGraphQLMapper;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.ProductModel;
 import dev.markozivkovic.spring_crud_generator_demo.transferobject.graphql.ProductTO;
 
-@Mapper(uses = { UserGraphQLMapper.class })
+@Mapper(uses = { UserGraphQLMapper.class, ProductDetailsGraphQLMapper.class })
 public interface ProductGraphQLMapper {
 
     @Mapping(target = "users", source = "users", qualifiedByName = "simple")
@@ -18,7 +19,7 @@ public interface ProductGraphQLMapper {
 
     @Mapping(target = "users", qualifiedByName = "simple")
     List<ProductTO> mapProductModelToProductTO(final List<ProductModel> model);
-    
+
     @Named("simple")
     @Mapping(target = "users", source = "users", ignore = true)
     ProductTO mapProductModelToProductTOSimple(final ProductModel model);
@@ -30,5 +31,6 @@ public interface ProductGraphQLMapper {
     ProductModel mapProductTOToProductModel(final ProductTO transferObject);
 
     List<ProductModel> mapProductTOToProductModel(final List<ProductTO> transferObject);
+
     
 }

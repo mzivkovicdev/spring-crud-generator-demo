@@ -3,6 +3,7 @@ package dev.markozivkovic.spring_crud_generator_demo.mapper.graphql.helpers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.Set;
 
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,27 @@ class DetailsGraphQlMapperTest {
             verifyDetailsTO(result, details);
         });
     }
+
+    @Test
+    void mapDetailsToDetailsTO_set() {
+
+        final Set<Details> detailss = Instancio.ofSet(Details.class)
+                .size(10)
+                .create();
+
+        final Set<DetailsTO> results = this.detailsMapper.mapDetailsToDetailsTO(detailss);
+
+        results.forEach(result -> {
+
+            final Details details = detailss.stream()
+                    .filter(obj -> obj.getFirstName().equals(result.firstName()))
+                    .findFirst()
+                    .orElseThrow();
+            
+            verifyDetailsTO(result, details);
+        });
+    }
+    
     @Test
     void mapDetailsTOToDetails() {
 
@@ -62,6 +84,26 @@ class DetailsGraphQlMapperTest {
                 .create();
 
         final List<Details> results = this.detailsMapper.mapDetailsTOToDetails(detailsTOs);
+
+        results.forEach(result -> {
+
+            final DetailsTO detailsTO = detailsTOs.stream()
+                    .filter(details -> details.firstName().equals(result.getFirstName()))
+                    .findFirst()
+                    .orElseThrow();
+            
+            verifyDetails(result, detailsTO);
+        });
+    }
+
+    @Test
+    void mapDetailsTOToDetails_set() {
+
+        final Set<DetailsTO> detailsTOs = Instancio.ofSet(DetailsTO.class)
+                .size(10)
+                .create();
+
+        final Set<Details> results = this.detailsMapper.mapDetailsTOToDetails(detailsTOs);
 
         results.forEach(result -> {
 

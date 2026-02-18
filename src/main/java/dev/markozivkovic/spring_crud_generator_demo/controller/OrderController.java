@@ -34,9 +34,9 @@ public class OrderController implements OrdersApi {
         this.orderService = orderService;
         this.orderBusinessService = orderBusinessService;
     }
-
-        @Override
-        public ResponseEntity<OrderPayload> ordersPost(final OrderCreatePayload body) {
+    
+    @Override
+    public ResponseEntity<OrderPayload> ordersPost(final OrderCreatePayload body) {
 
         final Long productId = body.getProduct() != null ? body.getProduct().getId() : null;
         final List<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 

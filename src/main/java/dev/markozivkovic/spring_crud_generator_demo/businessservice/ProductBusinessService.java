@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import dev.markozivkovic.spring_crud_generator_demo.annotation.OptimisticLockingRetry;
 import dev.markozivkovic.spring_crud_generator_demo.myenums.StatusEnum;
+import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.helpers.ProductDetails;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.ProductModel;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.UserEntity;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.service.ProductService;
@@ -29,11 +30,11 @@ public class ProductBusinessService {
     }
     
     @OptimisticLockingRetry
-    public ProductModel create(final String name, final String price, final List<Long> userIds, final UUID uuid, final LocalDate birthDate, final StatusEnum status) {
+    public ProductModel create(final String name, final Integer price, final List<Long> userIds, final UUID uuid, final LocalDate releaseDate, final List<ProductDetails> details, final StatusEnum status) {
 
         final List<UserEntity> userEntitys = this.userService.getAllByIds(userIds);
 
-        return this.productService.create(name, price, userEntitys, uuid, birthDate, status);
+        return this.productService.create(name, price, userEntitys, uuid, releaseDate, details, status);
     }
 
     /**

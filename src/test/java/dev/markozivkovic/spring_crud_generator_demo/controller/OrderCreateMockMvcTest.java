@@ -70,6 +70,7 @@ class OrderCreateMockMvcTest {
 
         final OrderTable orderTable = Instancio.create(OrderTable.class);
         final OrderCreatePayload body = Instancio.create(OrderCreatePayload.class);
+        body.quantity(1);
         final Long productId = body.getProduct() != null ? body.getProduct().getId() : null;
         final List<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 
                 body.getUsers().stream()
@@ -96,6 +97,18 @@ class OrderCreateMockMvcTest {
         verify(this.orderBusinessService).create(
                 productId, body.getQuantity(), usersIds
         );
+    }
+
+    @Test
+    void ordersPost_validationFails() throws Exception {
+
+        final OrderCreatePayload body = Instancio.create(OrderCreatePayload.class);
+        body.quantity(101);
+
+        this.mockMvc.perform(post("/api/orders")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(this.mapper.writeValueAsString(body)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

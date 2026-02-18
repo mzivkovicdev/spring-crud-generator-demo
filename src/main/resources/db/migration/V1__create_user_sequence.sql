@@ -1,3 +1,3 @@
-CREATE SEQUENCE IF NOT EXISTS user_table_id_seq
+CREATE SEQUENCE IF NOT EXISTS "user_table_id_seq"
     START WITH 1
     INCREMENT BY 50;

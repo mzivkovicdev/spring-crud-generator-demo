@@ -1,6 +1,7 @@
 package dev.markozivkovic.spring_crud_generator_demo.persistance.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -22,7 +23,11 @@ import jakarta.persistence.Table;
 import jakarta.persistence.TableGenerator;
 import jakarta.persistence.Version;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import dev.markozivkovic.spring_crud_generator_demo.myenums.StatusEnum;
+import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.helpers.ProductDetails;
 
 @Entity
 @Table(name = "product_table")
@@ -48,14 +53,14 @@ public class ProductModel {
     private Long id;
 
     @Column(
-        unique = true, nullable = false, updatable = true, length = 10000
+        unique = true, nullable = false, updatable = true, length = 100
     )
     private String name;
 
     @Column(
         nullable = false
     )
-    private String price;
+    private Integer price;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_id")
@@ -66,7 +71,11 @@ public class ProductModel {
     )
     private UUID uuid;
 
-    private LocalDate birthDate;
+    private LocalDate releaseDate;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private List<ProductDetails> details = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
@@ -78,12 +87,13 @@ public class ProductModel {
 
     }
 
-    public ProductModel(final String name, final String price, final List<UserEntity> users, final UUID uuid, final LocalDate birthDate, final StatusEnum status) {
+    public ProductModel(final String name, final Integer price, final List<UserEntity> users, final UUID uuid, final LocalDate releaseDate, final List<ProductDetails> details, final StatusEnum status) {
         this.name = name;
         this.price = price;
         this.users = users;
         this.uuid = uuid;
-        this.birthDate = birthDate;
+        this.releaseDate = releaseDate;
+        this.details = details;
         this.status = status;
     }
 
@@ -105,11 +115,11 @@ public class ProductModel {
         return this;
     }
 
-    public String getPrice() {
+    public Integer getPrice() {
         return this.price;
     }
 
-    public ProductModel setPrice(final String price) {
+    public ProductModel setPrice(final Integer price) {
         this.price = price;
         return this;
     }
@@ -132,12 +142,21 @@ public class ProductModel {
         return this;
     }
 
-    public LocalDate getBirthDate() {
-        return this.birthDate;
+    public LocalDate getReleaseDate() {
+        return this.releaseDate;
     }
 
-    public ProductModel setBirthDate(final LocalDate birthDate) {
-        this.birthDate = birthDate;
+    public ProductModel setReleaseDate(final LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+        return this;
+    }
+
+    public List<ProductDetails> getDetails() {
+        return this.details;
+    }
+
+    public ProductModel setDetails(final List<ProductDetails> details) {
+        this.details = details;
         return this;
     }
 
@@ -175,7 +194,8 @@ public class ProductModel {
             ", price='" + getPrice() + "'" +
             ", users='" + getUsers() + "'" +
             ", uuid='" + getUuid() + "'" +
-            ", birthDate='" + getBirthDate() + "'" +
+            ", releaseDate='" + getReleaseDate() + "'" +
+            ", details='" + getDetails() + "'" +
             ", status='" + getStatus() + "'" +
         "}";
     }

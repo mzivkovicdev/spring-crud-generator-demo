@@ -14,8 +14,10 @@ services:
             SPRING_DATA_REDIS_HOST: redis
             SPRING_DATA_REDIS_PORT: 6379
         depends_on:
-            - database
-            - redis
+            database:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
         networks:
             - spring-crud-generator-demo-network
     
@@ -29,6 +31,12 @@ services:
             POSTGRES_PASSWORD: app
         ports:
             - "5432:5432"
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -h localhost -p 5432 -U app -d spring-crud-generator-demo"]
+            interval: 10s
+            timeout: 5s
+            retries: 30
+            start_period: 45s
         volumes:
             - db_data:/var/lib/postgresql
         networks:
@@ -43,6 +51,12 @@ services:
             - "6379:6379"
         volumes:
             - redis_data:/data
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 10s
+            timeout: 5s
+            retries: 30
+            start_period: 15s
         networks:
             - spring-crud-generator-demo-network
 

@@ -29,9 +29,9 @@ public class UserCreatePayload {
 
   private @Nullable String username;
 
-  private @Nullable String email;
+  private String email;
 
-  private @Nullable String password;
+  private String password;
 
   private @Nullable DetailsPayload details;
 
@@ -40,6 +40,18 @@ public class UserCreatePayload {
 
   @Valid
   private List<String> permissions = new ArrayList<>();
+
+  public UserCreatePayload() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public UserCreatePayload(String email, String password) {
+    this.email = email;
+    this.password = password;
+  }
 
   public UserCreatePayload username(@Nullable String username) {
     this.username = username;
@@ -61,7 +73,7 @@ public class UserCreatePayload {
     this.username = username;
   }
 
-  public UserCreatePayload email(@Nullable String email) {
+  public UserCreatePayload email(String email) {
     this.email = email;
     return this;
   }
@@ -70,18 +82,18 @@ public class UserCreatePayload {
    * Get email
    * @return email
    */
-  
-  @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull @jakarta.validation.constraints.Email 
+  @Schema(name = "email", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("email")
-  public @Nullable String getEmail() {
+  public String getEmail() {
     return email;
   }
 
-  public void setEmail(@Nullable String email) {
+  public void setEmail(String email) {
     this.email = email;
   }
 
-  public UserCreatePayload password(@Nullable String password) {
+  public UserCreatePayload password(String password) {
     this.password = password;
     return this;
   }
@@ -90,14 +102,14 @@ public class UserCreatePayload {
    * Get password
    * @return password
    */
-  
-  @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$") 
+  @Schema(name = "password", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("password")
-  public @Nullable String getPassword() {
+  public String getPassword() {
     return password;
   }
 
-  public void setPassword(@Nullable String password) {
+  public void setPassword(String password) {
     this.password = password;
   }
 
@@ -166,7 +178,7 @@ public class UserCreatePayload {
    * Get permissions
    * @return permissions
    */
-  
+  @Size(min = 1) 
   @Schema(name = "permissions", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("permissions")
   public List<String> getPermissions() {

@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 
 import dev.markozivkovic.spring_crud_generator_demo.businessservice.ProductBusinessService;
 import dev.markozivkovic.spring_crud_generator_demo.mapper.graphql.ProductGraphQLMapper;
+import dev.markozivkovic.spring_crud_generator_demo.mapper.graphql.helpers.ProductDetailsGraphQLMapper;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.ProductModel;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.service.ProductService;
 import dev.markozivkovic.spring_crud_generator_demo.transferobject.PageTO;
@@ -23,6 +24,7 @@ import dev.markozivkovic.spring_crud_generator_demo.transferobject.graphql.Produ
 public class ProductResolver {
 
     private final ProductGraphQLMapper productMapper = Mappers.getMapper(ProductGraphQLMapper.class);
+    private final ProductDetailsGraphQLMapper productDetailsMapper = Mappers.getMapper(ProductDetailsGraphQLMapper.class);
 
     private final ProductService productService;
     private final ProductBusinessService productBusinessService;
@@ -59,7 +61,7 @@ public class ProductResolver {
     public ProductTO createProduct(@Argument @Valid final ProductCreateTO input) {
         return productMapper.mapProductModelToProductTO(
             this.productBusinessService.create(
-                input.name(), input.price(), input.usersIds(), input.uuid(), input.birthDate(), input.status()
+                input.name(), input.price(), input.usersIds(), input.uuid(), input.releaseDate(), productDetailsMapper.mapProductDetailsTOToProductDetails(input.details()), input.status()
             )
         );
     }
@@ -69,7 +71,7 @@ public class ProductResolver {
     public ProductTO updateProduct(@Argument final Long id, @Argument @Valid final ProductUpdateTO input) {
 
         return productMapper.mapProductModelToProductTO(
-                this.productService.updateById(id, input.name(), input.price(), input.uuid(), input.birthDate(), input.status())
+                this.productService.updateById(id, input.name(), input.price(), input.uuid(), input.releaseDate(), productDetailsMapper.mapProductDetailsTOToProductDetails(input.details()), input.status())
         );
     }
 

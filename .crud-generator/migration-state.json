@@ -4,7 +4,7 @@
   "entities" : [ {
     "name" : "ProductModel",
     "table" : "product_table",
-    "fingerprint" : "609c8ad145c6e09d0e402a09c2c8bc9a357c32acfa7d8f7063d7dce3de92fff3",
+    "fingerprint" : "52882cec8bd88b9ed676e62bad2beaf01ea8d42fa2226f37570b3066fcae9afd",
     "columns" : {
       "id" : {
         "type" : "BIGINT",
@@ -13,13 +13,13 @@
         "defaultExpr" : null
       },
       "name" : {
-        "type" : "VARCHAR(10000)",
+        "type" : "VARCHAR(100)",
         "nullable" : false,
         "unique" : true,
         "defaultExpr" : null
       },
       "price" : {
-        "type" : "VARCHAR(255)",
+        "type" : "INTEGER",
         "nullable" : false,
         "unique" : false,
         "defaultExpr" : null
@@ -30,8 +30,14 @@
         "unique" : false,
         "defaultExpr" : null
       },
-      "birth_date" : {
+      "release_date" : {
         "type" : "DATE",
+        "nullable" : true,
+        "unique" : false,
+        "defaultExpr" : null
+      },
+      "details" : {
+        "type" : "JSONB",
         "nullable" : true,
         "unique" : false,
         "defaultExpr" : null
@@ -57,7 +63,7 @@
     "fks" : [ ],
     "files" : [ {
       "file" : "V3__create_product_table_table.sql",
-      "hash" : "889dd9fba4cde8a661264f96336ba389b38b0dcd6289fc3ca3aa5c7543c31eaf"
+      "hash" : "48d11c13e3d85b238ed8e14b4c2d3871ea7cfc38be1b39adfecf10c276e93438"
     } ],
     "joins" : [ ]
   }, {
@@ -102,10 +108,10 @@
     } ],
     "files" : [ {
       "file" : "V4__create_order_table_table.sql",
-      "hash" : "e1de61b720f82485c82305ee75a1ff5e579b0afd6ab5f310a628beb88e5d6d19"
+      "hash" : "847290a5d5cf13d9419353f1ae14b599f83bc8c1b52f3903eb91a44f1a303cbc"
     }, {
       "file" : "V7__alter_table_order_table.sql",
-      "hash" : "a6a11ea71c6b526cdbd4fbf5180ccfff08ed4975c3cd2e711bf1b4073d649a21"
+      "hash" : "4a43455606adc16fe5cbd667b55a2a02827fb41090355ffd33b7112c8868867b"
     } ],
     "joins" : [ {
       "table" : "order_user_table",
@@ -119,7 +125,7 @@
       },
       "files" : [ {
         "file" : "V9__create_order_user_table.sql",
-        "hash" : "7adfc3be22f98042e6b9eaae94fb9b1dbb6dc0a4c109ee97bcb8bcc508fca54a"
+        "hash" : "1eee75c48ce791c3536d8639d7be466100da25877300a2afe824555acf708fc6"
       } ]
     } ]
   }, {
@@ -182,10 +188,10 @@
     } ],
     "files" : [ {
       "file" : "V5__create_user_table_table.sql",
-      "hash" : "6df3177d503aa90489cd234019bc87b56b94d113fb79a27b03d12a96981c84ae"
+      "hash" : "dd18f1bc47578cc72bf58b9e9414d715a6b4a421c88aa71d8ec086da853194b8"
     }, {
       "file" : "V8__alter_table_user_table.sql",
-      "hash" : "ecd3cb12bd940d10ae792a8c90b506dd659df1cf2df5fa83639ea4b139523b06"
+      "hash" : "0c810ed7edce24f6296dd9c52fc3fc485ea41f28cffbf020520d2a87d14d419f"
     } ],
     "joins" : [ ]
   }, {
@@ -220,7 +226,7 @@
     "fks" : [ ],
     "files" : [ {
       "file" : "V6__create_user_element_collections.sql",
-      "hash" : "2634e65d9774ff8bfccb76511f14fc158f389304933bd36f709301fdbab2ccc5"
+      "hash" : "980e6422e7eb4ecb5434662ea0ab844147d80577efba0baace24e875d30f68bd"
     } ],
     "joins" : [ ]
   }, {
@@ -255,7 +261,7 @@
     "fks" : [ ],
     "files" : [ {
       "file" : "V6__create_user_element_collections.sql",
-      "hash" : "2634e65d9774ff8bfccb76511f14fc158f389304933bd36f709301fdbab2ccc5"
+      "hash" : "980e6422e7eb4ecb5434662ea0ab844147d80577efba0baace24e875d30f68bd"
     } ],
     "joins" : [ ]
   } ],
@@ -265,7 +271,7 @@
     "ownerTable" : "user_table",
     "files" : [ {
       "file" : "V1__create_user_sequence.sql",
-      "hash" : "8de1c64e44cd42e6154a977cad12337c41edccfd56a1f864e93848a28a2d6f64"
+      "hash" : "d249fbbc9d81f295613658b3a8433e6518555194bd8ba3fdd19fae60a3664fe4"
     } ]
   }, {
     "type" : "TABLE_GENERATOR",
@@ -273,7 +279,7 @@
     "ownerTable" : "product_table",
     "files" : [ {
       "file" : "V2__create_product_table_generator.sql",
-      "hash" : "5a94dcdf30c13d0a37c187058ffdf9d7497554fd03a3ae3bbc426d8c1d205e59"
+      "hash" : "3a482bb97f12416671d8579a1a2777553772c47a82277e0f055817316aded0bd"
     } ]
   } ]
 }

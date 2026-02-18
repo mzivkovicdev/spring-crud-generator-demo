@@ -17,7 +17,7 @@ public interface UserGraphQLMapper {
     UserTO mapUserEntityToUserTO(final UserEntity model);
 
     List<UserTO> mapUserEntityToUserTO(final List<UserEntity> model);
-    
+
     @Named("simple")
     @Mapping(target = "roles", source = "roles", ignore = true)
     @Mapping(target = "permissions", source = "permissions", ignore = true)
@@ -30,5 +30,6 @@ public interface UserGraphQLMapper {
     UserEntity mapUserTOToUserEntity(final UserTO transferObject);
 
     List<UserEntity> mapUserTOToUserEntity(final List<UserTO> transferObject);
+
     
 }

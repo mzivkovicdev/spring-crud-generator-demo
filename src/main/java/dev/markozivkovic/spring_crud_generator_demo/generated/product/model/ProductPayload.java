@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import dev.markozivkovic.spring_crud_generator_demo.generated.product.model.ProductDetailsPayload;
 import dev.markozivkovic.spring_crud_generator_demo.generated.product.model.UserPayload;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,17 +34,20 @@ public class ProductPayload {
 
   private @Nullable Long id;
 
-  private @Nullable String name;
+  private String name;
 
-  private @Nullable String price;
+  private Integer price;
 
   @Valid
   private List<@Valid UserPayload> users = new ArrayList<>();
 
-  private @Nullable UUID uuid;
+  private UUID uuid;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  private @Nullable LocalDate birthDate;
+  private @Nullable LocalDate releaseDate;
+
+  @Valid
+  private List<@Valid ProductDetailsPayload> details = new ArrayList<>();
 
   /**
    * The status of the product
@@ -82,6 +86,20 @@ public class ProductPayload {
 
   private @Nullable StatusEnum status;
 
+  public ProductPayload() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public ProductPayload(String name, Integer price, List<@Valid UserPayload> users, UUID uuid) {
+    this.name = name;
+    this.price = price;
+    this.users = users;
+    this.uuid = uuid;
+  }
+
   public ProductPayload id(@Nullable Long id) {
     this.id = id;
     return this;
@@ -102,7 +120,7 @@ public class ProductPayload {
     this.id = id;
   }
 
-  public ProductPayload name(@Nullable String name) {
+  public ProductPayload name(String name) {
     this.name = name;
     return this;
   }
@@ -111,34 +129,36 @@ public class ProductPayload {
    * The name of the product
    * @return name
    */
-  @Size(max = 10000) 
-  @Schema(name = "name", description = "The name of the product", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull @Size(min = 10, max = 100) 
+  @Schema(name = "name", description = "The name of the product", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
-  public @Nullable String getName() {
+  public String getName() {
     return name;
   }
 
-  public void setName(@Nullable String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
-  public ProductPayload price(@Nullable String price) {
+  public ProductPayload price(Integer price) {
     this.price = price;
     return this;
   }
 
   /**
    * The price of the product
+   * minimum: 1
+   * maximum: 100
    * @return price
    */
-  
-  @Schema(name = "price", description = "The price of the product", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull @Min(1) @Max(100) 
+  @Schema(name = "price", description = "The price of the product", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("price")
-  public @Nullable String getPrice() {
+  public Integer getPrice() {
     return price;
   }
 
-  public void setPrice(@Nullable String price) {
+  public void setPrice(Integer price) {
     this.price = price;
   }
 
@@ -159,8 +179,8 @@ public class ProductPayload {
    * Get users
    * @return users
    */
-  @Valid 
-  @Schema(name = "users", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull @Valid 
+  @Schema(name = "users", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("users")
   public List<@Valid UserPayload> getUsers() {
     return users;
@@ -170,7 +190,7 @@ public class ProductPayload {
     this.users = users;
   }
 
-  public ProductPayload uuid(@Nullable UUID uuid) {
+  public ProductPayload uuid(UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -179,35 +199,63 @@ public class ProductPayload {
    * The unique identifier for the product
    * @return uuid
    */
-  @Valid 
-  @Schema(name = "uuid", description = "The unique identifier for the product", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull @Valid 
+  @Schema(name = "uuid", description = "The unique identifier for the product", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("uuid")
-  public @Nullable UUID getUuid() {
+  public UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(@Nullable UUID uuid) {
+  public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
-  public ProductPayload birthDate(@Nullable LocalDate birthDate) {
-    this.birthDate = birthDate;
+  public ProductPayload releaseDate(@Nullable LocalDate releaseDate) {
+    this.releaseDate = releaseDate;
     return this;
   }
 
   /**
-   * The date and time the product was created
-   * @return birthDate
+   * The release date of the product
+   * @return releaseDate
    */
   @Valid 
-  @Schema(name = "birthDate", description = "The date and time the product was created", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("birthDate")
-  public @Nullable LocalDate getBirthDate() {
-    return birthDate;
+  @Schema(name = "releaseDate", description = "The release date of the product", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("releaseDate")
+  public @Nullable LocalDate getReleaseDate() {
+    return releaseDate;
   }
 
-  public void setBirthDate(@Nullable LocalDate birthDate) {
-    this.birthDate = birthDate;
+  public void setReleaseDate(@Nullable LocalDate releaseDate) {
+    this.releaseDate = releaseDate;
+  }
+
+  public ProductPayload details(List<@Valid ProductDetailsPayload> details) {
+    this.details = details;
+    return this;
+  }
+
+  public ProductPayload addDetailsItem(ProductDetailsPayload detailsItem) {
+    if (this.details == null) {
+      this.details = new ArrayList<>();
+    }
+    this.details.add(detailsItem);
+    return this;
+  }
+
+  /**
+   * Get details
+   * @return details
+   */
+  @Valid 
+  @Schema(name = "details", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("details")
+  public List<@Valid ProductDetailsPayload> getDetails() {
+    return details;
+  }
+
+  public void setDetails(List<@Valid ProductDetailsPayload> details) {
+    this.details = details;
   }
 
   public ProductPayload status(@Nullable StatusEnum status) {
@@ -244,13 +292,14 @@ public class ProductPayload {
         Objects.equals(this.price, productPayload.price) &&
         Objects.equals(this.users, productPayload.users) &&
         Objects.equals(this.uuid, productPayload.uuid) &&
-        Objects.equals(this.birthDate, productPayload.birthDate) &&
+        Objects.equals(this.releaseDate, productPayload.releaseDate) &&
+        Objects.equals(this.details, productPayload.details) &&
         Objects.equals(this.status, productPayload.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, price, users, uuid, birthDate, status);
+    return Objects.hash(id, name, price, users, uuid, releaseDate, details, status);
   }
 
   @Override
@@ -262,7 +311,8 @@ public class ProductPayload {
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
     sb.append("    users: ").append(toIndentedString(users)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    birthDate: ").append(toIndentedString(birthDate)).append("\n");
+    sb.append("    releaseDate: ").append(toIndentedString(releaseDate)).append("\n");
+    sb.append("    details: ").append(toIndentedString(details)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");
     return sb.toString();
