@@ -1,0 +1,11 @@
+type: object
+description: Represents a product details
+title: ProductDetailsPayload
+properties:
+  description:
+    type: string
+  weight:
+    type: number
+    format: double
+  option:
+    type: string

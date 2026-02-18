@@ -1,4 +1,3 @@
-README.md
 src/main/java/dev/markozivkovic/spring_crud_generator_demo/generated/user/api/ApiUtil.java
 src/main/java/dev/markozivkovic/spring_crud_generator_demo/generated/user/api/UsersApi.java
 src/main/java/dev/markozivkovic/spring_crud_generator_demo/generated/user/model/DetailsPayload.java

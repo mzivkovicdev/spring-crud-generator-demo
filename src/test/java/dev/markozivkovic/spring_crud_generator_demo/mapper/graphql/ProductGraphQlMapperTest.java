@@ -112,7 +112,7 @@ class ProductGraphQlMapperTest {
         assertThat(result.name()).isEqualTo(productModel.getName());
         assertThat(result.price()).isEqualTo(productModel.getPrice());
         assertThat(result.uuid()).isEqualTo(productModel.getUuid());
-        assertThat(result.birthDate()).isEqualTo(productModel.getBirthDate());
+        assertThat(result.releaseDate()).isEqualTo(productModel.getReleaseDate());
         assertThat(result.status()).isEqualTo(productModel.getStatus());
     }
 
@@ -123,7 +123,7 @@ class ProductGraphQlMapperTest {
         assertThat(result.name()).isEqualTo(productModel.getName());
         assertThat(result.price()).isEqualTo(productModel.getPrice());
         assertThat(result.uuid()).isEqualTo(productModel.getUuid());
-        assertThat(result.birthDate()).isEqualTo(productModel.getBirthDate());
+        assertThat(result.releaseDate()).isEqualTo(productModel.getReleaseDate());
         assertThat(result.status()).isEqualTo(productModel.getStatus());
     }
 
@@ -134,7 +134,7 @@ class ProductGraphQlMapperTest {
         assertThat(result.getName()).isEqualTo(productTO.name());
         assertThat(result.getPrice()).isEqualTo(productTO.price());
         assertThat(result.getUuid()).isEqualTo(productTO.uuid());
-        assertThat(result.getBirthDate()).isEqualTo(productTO.birthDate());
+        assertThat(result.getReleaseDate()).isEqualTo(productTO.releaseDate());
         assertThat(result.getStatus()).isEqualTo(productTO.status());
     }
 

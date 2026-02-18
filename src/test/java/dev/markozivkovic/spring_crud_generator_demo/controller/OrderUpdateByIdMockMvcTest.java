@@ -68,6 +68,7 @@ class OrderUpdateByIdMockMvcTest {
         final OrderTable orderTable = Instancio.create(OrderTable.class);
         final Long orderId = orderTable.getOrderId();
         final OrderUpdatePayload body = Instancio.create(OrderUpdatePayload.class);
+        body.quantity(1);
 
         when(this.orderService.updateById(orderId, body.getQuantity())).thenReturn(orderTable);
 
@@ -91,6 +92,20 @@ class OrderUpdateByIdMockMvcTest {
 
         final String orderId = Instancio.create(String.class);
         final OrderUpdatePayload body = Instancio.create(OrderUpdatePayload.class);
+
+        this.mockMvc.perform(put("/api/orders/{id}", orderId)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(this.mapper.writeValueAsString(body)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void ordersIdPut_validationFails() throws Exception {
+
+        final OrderTable orderTable = Instancio.create(OrderTable.class);
+        final Long orderId = orderTable.getOrderId();
+        final OrderUpdatePayload body = Instancio.create(OrderUpdatePayload.class);
+        body.quantity(101);
 
         this.mockMvc.perform(put("/api/orders/{id}", orderId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)

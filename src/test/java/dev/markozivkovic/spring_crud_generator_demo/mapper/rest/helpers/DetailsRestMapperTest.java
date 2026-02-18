@@ -3,6 +3,7 @@ package dev.markozivkovic.spring_crud_generator_demo.mapper.rest.helpers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.Set;
 
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,27 @@ class DetailsRestMapperTest {
             verifyDetailsTO(result, details);
         });
     }
+
+    @Test
+    void mapDetailsToDetailsTO_set() {
+
+        final Set<Details> detailss = Instancio.ofSet(Details.class)
+                .size(10)
+                .create();
+
+        final Set<DetailsTO> results = this.detailsMapper.mapDetailsToDetailsTO(detailss);
+
+        results.forEach(result -> {
+
+            final Details details = detailss.stream()
+                    .filter(obj -> obj.getFirstName().equals(result.firstName()))
+                    .findFirst()
+                    .orElseThrow();
+            
+            verifyDetailsTO(result, details);
+        });
+    }
+    
     @Test
     void mapDetailsTOToDetails() {
 
@@ -63,6 +85,26 @@ class DetailsRestMapperTest {
                 .create();
 
         final List<Details> results = this.detailsMapper.mapDetailsTOToDetails(detailsTOs);
+
+        results.forEach(result -> {
+
+            final DetailsTO detailsTO = detailsTOs.stream()
+                    .filter(details -> details.firstName().equals(result.getFirstName()))
+                    .findFirst()
+                    .orElseThrow();
+            
+            verifyDetails(result, detailsTO);
+        });
+    }
+
+    @Test
+    void mapDetailsTOToDetails_set() {
+
+        final Set<DetailsTO> detailsTOs = Instancio.ofSet(DetailsTO.class)
+                .size(10)
+                .create();
+
+        final Set<Details> results = this.detailsMapper.mapDetailsTOToDetails(detailsTOs);
 
         results.forEach(result -> {
 
@@ -104,6 +146,27 @@ class DetailsRestMapperTest {
             verifyDetailsPayload(result, detailsTO);
         });
     }
+
+    @Test
+    void mapDetailsTOToDetailsPayload_set() {
+
+        final Set<DetailsTO> detailsTOs = Instancio.ofSet(DetailsTO.class)
+                .size(10)
+                .create();
+
+        final Set<DetailsPayload> results = this.detailsMapper.mapDetailsTOToDetailsPayload(detailsTOs);
+
+        results.forEach(result -> {
+
+            final DetailsTO detailsTO = detailsTOs.stream()
+                    .filter(details -> details.firstName().equals(result.getFirstName()))
+                    .findFirst()
+                    .orElseThrow();
+            
+            verifyDetailsPayload(result, detailsTO);
+        });
+    }
+
     @Test
     void mapDetailsPayloadToDetails() {
 
@@ -122,6 +185,26 @@ class DetailsRestMapperTest {
                 .create();
 
         final List<Details> results = this.detailsMapper.mapDetailsPayloadToDetails(detailsPayloads);
+
+        results.forEach(result -> {
+
+            final DetailsPayload detailsPayload = detailsPayloads.stream()
+                    .filter(obj -> obj.getFirstName().equals(result.getFirstName()))
+                    .findFirst()
+                    .orElseThrow();
+
+            verifyDetails(result, detailsPayload);
+        });
+    }
+
+    @Test
+    void mapDetailsPayloadToDetails_set() {
+
+        final Set<DetailsPayload> detailsPayloads = Instancio.ofSet(DetailsPayload.class)
+                .size(10)
+                .create();
+
+        final Set<Details> results = this.detailsMapper.mapDetailsPayloadToDetails(detailsPayloads);
 
         results.forEach(result -> {
 

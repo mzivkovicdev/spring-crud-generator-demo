@@ -1,7 +1,9 @@
 package dev.markozivkovic.spring_crud_generator_demo.transferobject.graphql;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-public record OrderUpdateTO(@NotNull Integer quantity) {
+public record OrderUpdateTO(@NotNull @NotNull @Min(1) @Max(100) Integer quantity) {
 
 }

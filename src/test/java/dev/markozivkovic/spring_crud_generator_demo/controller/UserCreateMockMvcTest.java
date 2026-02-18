@@ -63,6 +63,9 @@ class UserCreateMockMvcTest {
 
         final UserEntity userEntity = Instancio.create(UserEntity.class);
         final UserCreatePayload body = Instancio.create(UserCreatePayload.class);
+        body.email("a@b.co");
+        body.password("Abcdef1g");
+        body.permissions(generateList(1, () -> "a"));
 
         when(this.userService.create(
                 body.getUsername(), body.getEmail(), body.getPassword(), detailsMapper.mapDetailsPayloadToDetails(body.getDetails()), body.getRoles(), body.getPermissions()
@@ -86,6 +89,20 @@ class UserCreateMockMvcTest {
     }
 
     @Test
+    void usersPost_validationFails() throws Exception {
+
+        final UserCreatePayload body = Instancio.create(UserCreatePayload.class);
+        body.email(null);
+        body.password(null);
+        body.permissions(java.util.List.of());
+
+        this.mockMvc.perform(post("/api/users")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(this.mapper.writeValueAsString(body)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void usersPost_noRequestBody() throws Exception {
 
         this.mockMvc.perform(post("/api/users")
@@ -102,4 +119,15 @@ class UserCreateMockMvcTest {
         assertThat(result).isEqualTo(mappedUserEntity);
     }
 
+    private static <T> java.util.List<T> generateList(final int n, final java.util.function.Supplier<T> supplier) {
+        if (n <= 0) {
+            return java.util.List.of();
+        }
+        final java.util.ArrayList<T> list = new java.util.ArrayList<>(n);
+        for (int i = 0; i < n; i++) {
+            list.add(supplier.get());
+        }
+        return list;
+    }
+    
 }

@@ -65,7 +65,7 @@ class UserResolverMutationTest {
     void createUser() {
 
         final UserEntity saved = Instancio.create(UserEntity.class);
-        final UserCreateTO input = Instancio.create(UserCreateTO.class);
+        final UserCreateTO input = generateUserCreateTO();
         final Map<String, Object> inputVars = this.mapper.convertValue(
                 input, new TypeReference<Map<String,Object>>() {}
         );
@@ -98,6 +98,29 @@ class UserResolverMutationTest {
     }
 
     @Test
+    void createUser_validationFails() {
+        
+        final UserCreateTO input = generateInvalidUserCreateTO();
+        final Map<String, Object> inputVars = this.mapper.convertValue(
+                input, new TypeReference<Map<String,Object>>() {}
+        );
+
+        final String mutation = """
+            mutation($input: UserCreateInput!) {
+              createUser(input: $input) {
+                userId
+              }
+            }
+        """;
+
+        this.graphQlTester.document(mutation)
+            .variable("input", inputVars)
+            .execute()
+            .errors()
+            .satisfy(errors -> assertThat(errors).isNotEmpty());
+    }
+
+    @Test
     void createUser_missingInput_error() {
 
         final String mutation = """
@@ -119,7 +142,7 @@ class UserResolverMutationTest {
 
         final UserEntity updated = Instancio.create(UserEntity.class);
         final Long userId = updated.getUserId();
-        final UserUpdateTO input = Instancio.create(UserUpdateTO.class);
+        final UserUpdateTO input = generateUserUpdateTO();
         final Map<String, Object> inputVars = this.mapper.convertValue(
                 input, new TypeReference<Map<String,Object>>() {}
         );
@@ -151,6 +174,32 @@ class UserResolverMutationTest {
 
         assertThat(result).isNotNull();
         assertThat(result.userId()).isEqualTo(updated.getUserId());
+    }
+
+    @Test
+    void updateUser_validationFails() {
+
+        final UserEntity updated = Instancio.create(UserEntity.class);
+        final Long userId = updated.getUserId();
+        final UserUpdateTO input = generateInvalidUserUpdateTO();
+        final Map<String, Object> inputVars = this.mapper.convertValue(
+                input, new TypeReference<Map<String,Object>>() {}
+        );
+
+        final String mutation = """
+            mutation($id: ID!, $input: UserUpdateInput!) {
+              updateUser(id: $id, input: $input) {
+                userId
+              }
+            }
+        """;
+
+        this.graphQlTester.document(mutation)
+            .variable("id", userId)
+            .variable("input", inputVars)
+            .execute()
+            .errors()
+            .satisfy(errors -> assertThat(errors).isNotEmpty());
     }
 
     @Test
@@ -209,4 +258,63 @@ class UserResolverMutationTest {
             .satisfy(errors -> assertThat(errors).isNotEmpty());
     }
 
+    private static UserCreateTO generateUserCreateTO() {
+        final UserCreateTO input = Instancio.create(UserCreateTO.class);
+        return new UserCreateTO(
+                input.username(),
+                "a@b.co",
+                "Abcdef1g",
+                input.details(),
+                input.roles(),
+                generateList(1, () -> "a")
+        );
+    }
+
+    private static UserCreateTO generateInvalidUserCreateTO() {
+        final UserCreateTO input = Instancio.create(UserCreateTO.class);
+        return new UserCreateTO(
+                input.username(),
+                null,
+                null,
+                input.details(),
+                input.roles(),
+                java.util.List.of()
+        );
+    }
+
+    private static UserUpdateTO generateUserUpdateTO() {
+        final UserUpdateTO input = Instancio.create(UserUpdateTO.class);
+        return new UserUpdateTO(
+                input.username(),
+                "a@b.co",
+                "Abcdef1g",
+                input.details(),
+                input.roles(),
+                generateList(1, () -> "a")
+        );
+    }
+
+    private static UserUpdateTO generateInvalidUserUpdateTO() {
+        final UserUpdateTO input = Instancio.create(UserUpdateTO.class);
+        return new UserUpdateTO(
+                input.username(),
+                null,
+                null,
+                input.details(),
+                input.roles(),
+                java.util.List.of()
+        );
+    }
+
+    private static <T> java.util.List<T> generateList(final int n, final java.util.function.Supplier<T> supplier) {
+        if (n <= 0) {
+            return java.util.List.of();
+        }
+        final java.util.ArrayList<T> list = new java.util.ArrayList<>(n);
+        for (int i = 0; i < n; i++) {
+            list.add(supplier.get());
+        }
+        return list;
+    }
+    
 }

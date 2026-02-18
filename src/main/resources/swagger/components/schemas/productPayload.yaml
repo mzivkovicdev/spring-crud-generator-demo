@@ -9,14 +9,19 @@ properties:
   name:
     type: string
     nullable: false
-    maxLength: 10000
+    minLength: 10
+    maxLength: 100
     description: The name of the product
   price:
-    type: string
+    type: integer
+    format: int32
     nullable: false
+    minimum: 1
+    maximum: 100
     description: The price of the product
   users:
     type: array
+    nullable: false
     items:
       $ref: './userPayload.yaml'
   uuid:
@@ -24,13 +29,23 @@ properties:
     format: uuid
     nullable: false
     description: The unique identifier for the product
-  birthDate:
+  releaseDate:
     type: string
     format: date
-    description: The date and time the product was created
+    description: The release date of the product
+  details:
+    type: array
+    uniqueItems: false
+    items:
+      $ref: './productDetailsPayload.yaml'
   status:
     type: string
     enum:
       - ACTIVE
       - INACTIVE
     description: The status of the product
+required:
+  - name
+  - price
+  - users
+  - uuid

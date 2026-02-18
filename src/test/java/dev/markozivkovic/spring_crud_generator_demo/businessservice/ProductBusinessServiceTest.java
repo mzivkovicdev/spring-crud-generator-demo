@@ -19,6 +19,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import dev.markozivkovic.spring_crud_generator_demo.myenums.StatusEnum;
+import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.helpers.ProductDetails;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.ProductModel;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.UserEntity;
 import dev.markozivkovic.spring_crud_generator_demo.persistance.service.ProductService;
@@ -61,18 +62,19 @@ class ProductBusinessServiceTest {
                 .map(UserEntity::getUserId)
                 .toList();
         final String name = productModel.getName();
-        final String price = productModel.getPrice();
+        final Integer price = productModel.getPrice();
         final UUID uuid = productModel.getUuid();
-        final LocalDate birthDate = productModel.getBirthDate();
+        final LocalDate releaseDate = productModel.getReleaseDate();
+        final List<ProductDetails> details = productModel.getDetails();
         final StatusEnum status = productModel.getStatus();
 
         when(this.userService.getAllByIds(userIds)).thenReturn(userEntitys);
-        when(this.productService.create(name, price, userEntitys, uuid, birthDate, status)).thenReturn(productModel);
+        when(this.productService.create(name, price, userEntitys, uuid, releaseDate, details, status)).thenReturn(productModel);
 
-        final ProductModel result = this.productBusinessService.create(name, price, userIds, uuid, birthDate, status);
+        final ProductModel result = this.productBusinessService.create(name, price, userIds, uuid, releaseDate, details, status);
 
         verify(this.userService).getAllByIds(userIds);
-        verify(this.productService).create(name, price, userEntitys, uuid, birthDate, status);
+        verify(this.productService).create(name, price, userEntitys, uuid, releaseDate, details, status);
 
         verifyProduct(result, productModel);
     }

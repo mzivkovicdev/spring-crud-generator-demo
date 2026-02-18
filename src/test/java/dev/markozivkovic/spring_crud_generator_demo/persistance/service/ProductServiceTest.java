@@ -121,7 +121,7 @@ class ProductServiceTest {
                 .thenReturn(product);
 
         final ProductModel result = this.productService.create(
-            product.getName(), product.getPrice(), product.getUsers(), product.getUuid(), product.getBirthDate(), product.getStatus()
+            product.getName(), product.getPrice(), product.getUsers(), product.getUuid(), product.getReleaseDate(), product.getDetails(), product.getStatus()
         );
 
         verifyProduct(result, product);
@@ -141,7 +141,7 @@ class ProductServiceTest {
                 .thenReturn(product);
 
         final ProductModel result = this.productService.updateById(
-            id, product.getName(), product.getPrice(), product.getUuid(), product.getBirthDate(), product.getStatus()
+            id, product.getName(), product.getPrice(), product.getUuid(), product.getReleaseDate(), product.getDetails(), product.getStatus()
         );
 
         verifyProduct(result, product);
@@ -159,7 +159,7 @@ class ProductServiceTest {
         when(this.productRepository.findById(id))
                 .thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> this.productService.updateById(id, product.getName(), product.getPrice(), product.getUuid(), product.getBirthDate(), product.getStatus()))
+        assertThatThrownBy(() -> this.productService.updateById(id, product.getName(), product.getPrice(), product.getUuid(), product.getReleaseDate(), product.getDetails(), product.getStatus()))
                 .isExactlyInstanceOf(ResourceNotFoundException.class)
                 .hasMessage(
                     String.format("Product with id not found: %s", id)
@@ -312,7 +312,8 @@ class ProductServiceTest {
         assertThat(result.getName()).isEqualTo(productModel.getName());
         assertThat(result.getPrice()).isEqualTo(productModel.getPrice());
         assertThat(result.getUuid()).isEqualTo(productModel.getUuid());
-        assertThat(result.getBirthDate()).isEqualTo(productModel.getBirthDate());
+        assertThat(result.getReleaseDate()).isEqualTo(productModel.getReleaseDate());
+        assertThat(result.getDetails()).isEqualTo(productModel.getDetails());
         assertThat(result.getStatus()).isEqualTo(productModel.getStatus());
         assertThat(result.getUsers()).containsAll(productModel.getUsers());
     }

@@ -30,12 +30,25 @@ public class OrderPayload {
 
   private @Nullable Long orderId;
 
-  private @Nullable ProductPayload product;
+  private ProductPayload product;
 
-  private @Nullable Integer quantity;
+  private Integer quantity;
 
   @Valid
   private List<@Valid UserPayload> users = new ArrayList<>();
+
+  public OrderPayload() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public OrderPayload(ProductPayload product, Integer quantity, List<@Valid UserPayload> users) {
+    this.product = product;
+    this.quantity = quantity;
+    this.users = users;
+  }
 
   public OrderPayload orderId(@Nullable Long orderId) {
     this.orderId = orderId;
@@ -57,7 +70,7 @@ public class OrderPayload {
     this.orderId = orderId;
   }
 
-  public OrderPayload product(@Nullable ProductPayload product) {
+  public OrderPayload product(ProductPayload product) {
     this.product = product;
     return this;
   }
@@ -66,34 +79,36 @@ public class OrderPayload {
    * Get product
    * @return product
    */
-  @Valid 
-  @Schema(name = "product", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull @Valid 
+  @Schema(name = "product", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("product")
-  public @Nullable ProductPayload getProduct() {
+  public ProductPayload getProduct() {
     return product;
   }
 
-  public void setProduct(@Nullable ProductPayload product) {
+  public void setProduct(ProductPayload product) {
     this.product = product;
   }
 
-  public OrderPayload quantity(@Nullable Integer quantity) {
+  public OrderPayload quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
   }
 
   /**
    * Get quantity
+   * minimum: 1
+   * maximum: 100
    * @return quantity
    */
-  
-  @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull @Min(1) @Max(100) 
+  @Schema(name = "quantity", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("quantity")
-  public @Nullable Integer getQuantity() {
+  public Integer getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(@Nullable Integer quantity) {
+  public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
 
@@ -114,8 +129,8 @@ public class OrderPayload {
    * Get users
    * @return users
    */
-  @Valid 
-  @Schema(name = "users", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull @Valid 
+  @Schema(name = "users", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("users")
   public List<@Valid UserPayload> getUsers() {
     return users;

@@ -20,7 +20,7 @@ public interface OrderGraphQLMapper {
     @Mapping(target = "users", qualifiedByName = "simple")
     @Mapping(target = "product", qualifiedByName = "simple")
     List<OrderTO> mapOrderTableToOrderTO(final List<OrderTable> model);
-    
+
     @Named("simple")
     @Mapping(target = "users", source = "users", ignore = true)
     @Mapping(target = "product", qualifiedByName = "simple")
@@ -33,5 +33,6 @@ public interface OrderGraphQLMapper {
     OrderTable mapOrderTOToOrderTable(final OrderTO transferObject);
 
     List<OrderTable> mapOrderTOToOrderTable(final List<OrderTO> transferObject);
+
     
 }

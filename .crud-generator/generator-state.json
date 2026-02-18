@@ -1,17 +1,20 @@
 {
   "generatorVersion" : "1.0",
-  "configuration" : "e5e8f395c4f7b1359289c072b49b38a3dc157f4cd121e99ff7cdadd5af115137",
+  "configuration" : "3ae5d8611a58784294c0bc28d044b6daca8ad9167f3e17bcfb8088649fce2708",
   "models" : [ {
     "name" : "ProductModel",
-    "fingerprint" : "b706ffd4da1dbb923cdecb2e12b6c68105ea4da2c7296798d12ffa43e502a523"
+    "fingerprint" : "5e47bba62720fcce026a2e627f94e1961c191d05b0ab43eb21e6c3b6ebaa756d"
   }, {
     "name" : "OrderTable",
-    "fingerprint" : "ef57861a3b34f67e5b245b537dbfd75c97e44f812b6d5d8f89bc6a146bd50b64"
+    "fingerprint" : "29a27ba99b30640a6e19ad9d61b7deffc78217a0328f0cf9ad2082fc188165ee"
   }, {
     "name" : "UserEntity",
-    "fingerprint" : "7f01a1e7d755f691d827aedb11f9fa88bcbfb3d0ae0689c93bf709ab26afce4a"
+    "fingerprint" : "45e935ef32484aae4f2a50a424998a0589b6817063f880a5cf4f0f6debe16178"
   }, {
     "name" : "Details",
     "fingerprint" : "ac4129c7d05313bdfe2db306c1f27d2fb0e7fd5119236c700d2690e4f0ee749d"
+  }, {
+    "name" : "ProductDetails",
+    "fingerprint" : "209a118b8ce6a32b3ed1796fdc0c9830788c9927d449bdcb61138138f0fd5762"
   } ]
 }

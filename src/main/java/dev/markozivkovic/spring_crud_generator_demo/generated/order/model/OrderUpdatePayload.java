@@ -23,25 +23,38 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0")
 public class OrderUpdatePayload {
 
-  private @Nullable Integer quantity;
+  private Integer quantity;
 
-  public OrderUpdatePayload quantity(@Nullable Integer quantity) {
+  public OrderUpdatePayload() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public OrderUpdatePayload(Integer quantity) {
+    this.quantity = quantity;
+  }
+
+  public OrderUpdatePayload quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
   }
 
   /**
    * Get quantity
+   * minimum: 1
+   * maximum: 100
    * @return quantity
    */
-  
-  @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull @Min(1) @Max(100) 
+  @Schema(name = "quantity", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("quantity")
-  public @Nullable Integer getQuantity() {
+  public Integer getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(@Nullable Integer quantity) {
+  public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
 

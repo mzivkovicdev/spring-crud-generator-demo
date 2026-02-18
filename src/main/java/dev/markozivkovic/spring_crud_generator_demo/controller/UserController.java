@@ -29,9 +29,9 @@ public class UserController implements UsersApi {
     public UserController(final UserService userService) {
         this.userService = userService;
     }
-
-        @Override
-        public ResponseEntity<UserPayload> usersPost(final UserCreatePayload body) {
+    
+    @Override
+    public ResponseEntity<UserPayload> usersPost(final UserCreatePayload body) {
 
 
         return ResponseEntity.ok(

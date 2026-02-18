@@ -28,14 +28,27 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0")
 public class OrderCreatePayload {
 
-  private @Nullable ProductInput product;
+  private ProductInput product;
 
-  private @Nullable Integer quantity;
+  private Integer quantity;
 
   @Valid
   private List<@Valid UserInput> users = new ArrayList<>();
 
-  public OrderCreatePayload product(@Nullable ProductInput product) {
+  public OrderCreatePayload() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public OrderCreatePayload(ProductInput product, Integer quantity, List<@Valid UserInput> users) {
+    this.product = product;
+    this.quantity = quantity;
+    this.users = users;
+  }
+
+  public OrderCreatePayload product(ProductInput product) {
     this.product = product;
     return this;
   }
@@ -44,34 +57,36 @@ public class OrderCreatePayload {
    * Get product
    * @return product
    */
-  @Valid 
-  @Schema(name = "product", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull @Valid 
+  @Schema(name = "product", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("product")
-  public @Nullable ProductInput getProduct() {
+  public ProductInput getProduct() {
     return product;
   }
 
-  public void setProduct(@Nullable ProductInput product) {
+  public void setProduct(ProductInput product) {
     this.product = product;
   }
 
-  public OrderCreatePayload quantity(@Nullable Integer quantity) {
+  public OrderCreatePayload quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
   }
 
   /**
    * Get quantity
+   * minimum: 1
+   * maximum: 100
    * @return quantity
    */
-  
-  @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull @Min(1) @Max(100) 
+  @Schema(name = "quantity", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("quantity")
-  public @Nullable Integer getQuantity() {
+  public Integer getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(@Nullable Integer quantity) {
+  public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
 
@@ -92,8 +107,8 @@ public class OrderCreatePayload {
    * Get users
    * @return users
    */
-  @Valid 
-  @Schema(name = "users", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull @Valid 
+  @Schema(name = "users", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("users")
   public List<@Valid UserInput> getUsers() {
     return users;

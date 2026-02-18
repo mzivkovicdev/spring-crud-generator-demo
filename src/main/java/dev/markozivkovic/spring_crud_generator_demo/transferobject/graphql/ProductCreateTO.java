@@ -4,11 +4,15 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import dev.markozivkovic.spring_crud_generator_demo.myenums.StatusEnum;
+import dev.markozivkovic.spring_crud_generator_demo.transferobject.graphql.helpers.ProductDetailsTO;
 
-public record ProductCreateTO(@NotNull @Size(max = 10000) String name, @NotNull String price, List<Long> usersIds, @NotNull UUID uuid, LocalDate birthDate, StatusEnum status) {
+public record ProductCreateTO(@NotNull @NotNull @Size(min = 10, max = 100) @NotBlank String name, @NotNull @NotNull @Min(1) @Max(100) Integer price, List<Long> usersIds, @NotNull @NotNull UUID uuid, LocalDate releaseDate, List<ProductDetailsTO> details, StatusEnum status) {
 
 }

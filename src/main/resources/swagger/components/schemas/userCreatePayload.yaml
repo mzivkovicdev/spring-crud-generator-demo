@@ -6,8 +6,12 @@ properties:
     type: string
   email:
     type: string
+    format: email
+    nullable: false
   password:
     type: string
+    nullable: false
+    pattern: ^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$
   details:
     $ref: './detailsPayload.yaml'
   roles:
@@ -18,5 +22,9 @@ properties:
   permissions:
     type: array
     uniqueItems: false
+    minItems: 1
     items:
       type: string
+required:
+  - email
+  - password
