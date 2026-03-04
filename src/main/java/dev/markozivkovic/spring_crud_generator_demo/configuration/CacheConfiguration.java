@@ -70,4 +70,5 @@ public class CacheConfiguration {
                 .addModule(new HibernateLazyNullModule())
                 .build();
     }
+
 }

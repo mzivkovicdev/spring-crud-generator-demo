@@ -20,6 +20,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.type.SqlTypes;
 
 import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.helpers.Details;
@@ -33,6 +35,8 @@ import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.helpers.D
         @NamedAttributeNode("permissions")
     }
 )
+@SQLDelete(sql = "UPDATE user_table SET deleted = true WHERE user_id = ? AND version = ?")
+@SQLRestriction("deleted = false")
 public class UserEntity {
 
     @Id
@@ -73,6 +77,9 @@ public class UserEntity {
 
     @Version
     private Integer version;
+
+    @Column(nullable = false)
+    private boolean deleted = Boolean.FALSE;
 
     public UserEntity() {
 
