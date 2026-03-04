@@ -130,6 +130,7 @@ entities:
           joinColumn: product_id
           fetch: EAGER
           cascade: MERGE
+          orphanRemoval: true
         validation:
           required: true
       - name: quantity
@@ -157,6 +158,7 @@ entities:
   - name: UserEntity
     storageName: user_table
     description: "Represents a user"
+    softDelete: true
     fields:
       - name: userId
         type: Long
