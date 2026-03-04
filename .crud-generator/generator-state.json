@@ -3,10 +3,10 @@
   "configuration" : "0f6678ed0c1fe3a0f801cfe39c9fefbdb49dec6712aef6208ba5787dc5013d1e",
   "models" : [ {
     "name" : "ProductModel",
-    "fingerprint" : "5e47bba62720fcce026a2e627f94e1961c191d05b0ab43eb21e6c3b6ebaa756d"
+    "fingerprint" : "46488b154f3aae9251b03686af8214288fbf54d9cb86d35ec3ade7353d558259"
   }, {
     "name" : "OrderTable",
-    "fingerprint" : "29a27ba99b30640a6e19ad9d61b7deffc78217a0328f0cf9ad2082fc188165ee"
+    "fingerprint" : "27b87c2cdacc3a2a78f6a3516cbd9ca0278c4722cc42ce93c70ec7fa872050ef"
   }, {
     "name" : "UserEntity",
     "fingerprint" : "45e935ef32484aae4f2a50a424998a0589b6817063f880a5cf4f0f6debe16178"

@@ -1,6 +1,6 @@
 {
   "generatorVersion" : "1.0",
-  "lastScriptVersion" : 9,
+  "lastScriptVersion" : 10,
   "entities" : [ {
     "name" : "ProductModel",
     "table" : "product_table",
@@ -60,6 +60,7 @@
       "enabled" : false,
       "type" : "TIMESTAMP WITH TIME ZONE"
     },
+    "softDelete" : false,
     "fks" : [ ],
     "files" : [ {
       "file" : "V3__create_product_table_table.sql",
@@ -101,6 +102,7 @@
       "enabled" : false,
       "type" : "TIMESTAMP WITH TIME ZONE"
     },
+    "softDelete" : false,
     "fks" : [ {
       "column" : "product_id",
       "refTable" : "product_table",
@@ -131,7 +133,7 @@
   }, {
     "name" : "UserEntity",
     "table" : "user_table",
-    "fingerprint" : "3baec111876a1d689f3f6f9ebf09f898773fe15325b7f7e76ba176629c4024f5",
+    "fingerprint" : "8b16f50cedb9dd3d86b6c6b035fa7c30f57b91eaf6fb99a843e36d6a5f89fd71",
     "columns" : {
       "user_id" : {
         "type" : "BIGINT",
@@ -181,7 +183,12 @@
       "enabled" : false,
       "type" : "TIMESTAMP WITH TIME ZONE"
     },
+    "softDelete" : true,
     "fks" : [ {
+      "column" : "product_id",
+      "refTable" : "product_table",
+      "refColumn" : "id"
+    }, {
       "column" : "product_id",
       "refTable" : "product_table",
       "refColumn" : "id"
@@ -192,6 +199,9 @@
     }, {
       "file" : "V8__alter_table_user_table.sql",
       "hash" : "0c810ed7edce24f6296dd9c52fc3fc485ea41f28cffbf020520d2a87d14d419f"
+    }, {
+      "file" : "V10__alter_table_user_table.sql",
+      "hash" : "3b6cd2bc6654a6813348ba6a85b7f501e3a173e8001f573f174a591290350ee6"
     } ],
     "joins" : [ ]
   }, {
@@ -223,6 +233,7 @@
       "enabled" : false,
       "type" : null
     },
+    "softDelete" : false,
     "fks" : [ ],
     "files" : [ {
       "file" : "V6__create_user_element_collections.sql",
@@ -258,6 +269,7 @@
       "enabled" : false,
       "type" : null
     },
+    "softDelete" : false,
     "fks" : [ ],
     "files" : [ {
       "file" : "V6__create_user_element_collections.sql",
