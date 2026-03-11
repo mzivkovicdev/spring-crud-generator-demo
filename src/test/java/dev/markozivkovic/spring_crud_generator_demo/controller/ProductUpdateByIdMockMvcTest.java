@@ -76,7 +76,7 @@ class ProductUpdateByIdMockMvcTest {
 
         when(this.productService.updateById(id, body.getName(), body.getPrice(), body.getUuid(), body.getReleaseDate(), productDetailsMapper.mapProductDetailsPayloadToProductDetails(body.getDetails()), body.getStatus() != null ? StatusEnum.valueOf(body.getStatus().name()) : null)).thenReturn(productModel);
 
-        final ResultActions resultActions = this.mockMvc.perform(put("/api/products/{id}", id)
+        final ResultActions resultActions = this.mockMvc.perform(put("/api/v1/products/{id}", id)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isOk());
@@ -97,7 +97,7 @@ class ProductUpdateByIdMockMvcTest {
         final String id = Instancio.create(String.class);
         final ProductUpdatePayload body = Instancio.create(ProductUpdatePayload.class);
 
-        this.mockMvc.perform(put("/api/products/{id}", id)
+        this.mockMvc.perform(put("/api/v1/products/{id}", id)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
@@ -112,7 +112,7 @@ class ProductUpdateByIdMockMvcTest {
         body.name(null);
         body.price(101);
 
-        this.mockMvc.perform(put("/api/products/{id}", id)
+        this.mockMvc.perform(put("/api/v1/products/{id}", id)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
@@ -123,7 +123,7 @@ class ProductUpdateByIdMockMvcTest {
 
         final Long id = Instancio.create(Long.class);
 
-        this.mockMvc.perform(put("/api/products/{id}", id)
+        this.mockMvc.perform(put("/api/v1/products/{id}", id)
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
     }

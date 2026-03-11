@@ -72,7 +72,7 @@ class ProductAddUserMockMvcTest {
 
         when(this.productBusinessService.addUsers(id, body.getUserId())).thenReturn(productModel);
         
-        final ResultActions resultActions = this.mockMvc.perform(post("/api/products/{id}/users", id)
+        final ResultActions resultActions = this.mockMvc.perform(post("/api/v1/products/{id}/users", id)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isOk());
@@ -93,7 +93,7 @@ class ProductAddUserMockMvcTest {
         final String id = Instancio.create(String.class);
         final UserInput body = Instancio.create(UserInput.class);
         
-        this.mockMvc.perform(post("/api/products/{id}/users", id)
+        this.mockMvc.perform(post("/api/v1/products/{id}/users", id)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
@@ -104,7 +104,7 @@ class ProductAddUserMockMvcTest {
 
         final Long id = Instancio.create(Long.class);
         
-        this.mockMvc.perform(post("/api/products/{id}/users", id)
+        this.mockMvc.perform(post("/api/v1/products/{id}/users", id)
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
     }

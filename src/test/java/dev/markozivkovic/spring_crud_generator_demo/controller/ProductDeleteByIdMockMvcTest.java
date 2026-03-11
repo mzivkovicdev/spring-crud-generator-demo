@@ -52,7 +52,7 @@ class ProductDeleteByIdMockMvcTest {
 
         final Long id = Instancio.create(Long.class);
 
-        this.mockMvc.perform(delete("/api/products/{id}", id))
+        this.mockMvc.perform(delete("/api/v1/products/{id}", id))
                 .andExpect(status().isNoContent());
 
         verify(this.productService).deleteById(id);
@@ -63,7 +63,7 @@ class ProductDeleteByIdMockMvcTest {
 
         final String id = Instancio.create(String.class);
 
-        this.mockMvc.perform(delete("/api/products/{id}", id))
+        this.mockMvc.perform(delete("/api/v1/products/{id}", id))
                 .andExpect(status().isBadRequest());
     }
 }

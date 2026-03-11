@@ -63,7 +63,7 @@ class OrderBusinessServiceTest {
         final List<UserEntity> userEntitys = orderTable.getUsers();
         final List<Long> userIds = userEntitys.stream()
                 .map(UserEntity::getUserId)
-                .toList();
+                .collect(java.util.stream.Collectors.toList());
         final Integer quantity = orderTable.getQuantity();
 
         when(this.productService.getById(productId)).thenReturn(productModel);
@@ -78,6 +78,7 @@ class OrderBusinessServiceTest {
 
         verifyOrder(result, orderTable);
     }
+
     
     @Test
     void addProduct() {

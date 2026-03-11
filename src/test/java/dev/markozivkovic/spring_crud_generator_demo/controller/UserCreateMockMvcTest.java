@@ -71,7 +71,7 @@ class UserCreateMockMvcTest {
                 body.getUsername(), body.getEmail(), body.getPassword(), detailsMapper.mapDetailsPayloadToDetails(body.getDetails()), body.getRoles(), body.getPermissions()
         )).thenReturn(userEntity);
 
-        final ResultActions resultActions = this.mockMvc.perform(post("/api/users")
+        final ResultActions resultActions = this.mockMvc.perform(post("/api/v1/users")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isOk());
@@ -96,7 +96,7 @@ class UserCreateMockMvcTest {
         body.password(null);
         body.permissions(java.util.List.of());
 
-        this.mockMvc.perform(post("/api/users")
+        this.mockMvc.perform(post("/api/v1/users")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
@@ -105,7 +105,7 @@ class UserCreateMockMvcTest {
     @Test
     void usersPost_noRequestBody() throws Exception {
 
-        this.mockMvc.perform(post("/api/users")
+        this.mockMvc.perform(post("/api/v1/users")
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
     }

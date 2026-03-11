@@ -68,7 +68,7 @@ class UserGetMockMvcTest {
 
         when(this.userService.getById(userId)).thenReturn(userEntity);
 
-        final ResultActions resultActions = this.mockMvc.perform(get("/api/users/{id}", userId))
+        final ResultActions resultActions = this.mockMvc.perform(get("/api/v1/users/{id}", userId))
                 .andExpect(status().isOk());
 
         final UserPayload result = this.mapper.readValue(
@@ -86,7 +86,7 @@ class UserGetMockMvcTest {
 
         final String userId = Instancio.create(String.class);
 
-        this.mockMvc.perform(get("/api/users/{id}", userId))
+        this.mockMvc.perform(get("/api/v1/users/{id}", userId))
                 .andExpect(status().isBadRequest());
     }
 
@@ -101,7 +101,7 @@ class UserGetMockMvcTest {
 
         when(this.userService.getAll(pageNumber, pageSize)).thenReturn(pageUserEntitys);
 
-        final ResultActions resultActions = this.mockMvc.perform(get("/api/users")
+        final ResultActions resultActions = this.mockMvc.perform(get("/api/v1/users")
                                 .queryParam("pageNumber", String.format("%s", pageNumber))
                                 .queryParam("pageSize", String.format("%s", pageSize)))
                         .andExpect(status().isOk());
@@ -136,7 +136,7 @@ class UserGetMockMvcTest {
 
         final Integer pageSize = Instancio.create(Integer.class);
 
-        this.mockMvc.perform(get("/api/users")
+        this.mockMvc.perform(get("/api/v1/users")
                                 .queryParam("pageSize", String.format("%s", pageSize)))
                         .andExpect(status().isBadRequest());
     }
@@ -146,7 +146,7 @@ class UserGetMockMvcTest {
 
         final Integer pageNumber = Instancio.create(Integer.class);
 
-        this.mockMvc.perform(get("/api/users")
+        this.mockMvc.perform(get("/api/v1/users")
                                 .queryParam("pageNumber", String.format("%s", pageNumber)))
                         .andExpect(status().isBadRequest());
     }
@@ -157,7 +157,7 @@ class UserGetMockMvcTest {
         final String pageNumber = Instancio.create(String.class);
         final String pageSize = Instancio.create(String.class);
 
-        this.mockMvc.perform(get("/api/users")
+        this.mockMvc.perform(get("/api/v1/users")
                                 .queryParam("pageSize", String.format("%s", pageSize))
                                 .queryParam("pageNumber", String.format("%s", pageNumber)))
                         .andExpect(status().isBadRequest());

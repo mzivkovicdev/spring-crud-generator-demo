@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -57,10 +58,11 @@ class ProductBusinessServiceTest {
     void create() {
 
         final ProductModel productModel = Instancio.create(ProductModel.class);
-        final List<UserEntity> userEntitys = productModel.getUsers();
-        final List<Long> userIds = userEntitys.stream()
+        final Set<UserEntity> userEntitys = productModel.getUsers();
+        final Set<Long> userIds = userEntitys.stream()
                 .map(UserEntity::getUserId)
-                .toList();
+                .collect(java.util.stream.Collectors.toSet());
+        final List<UserEntity> userEntityList = userEntitys.stream().toList();
         final String name = productModel.getName();
         final Integer price = productModel.getPrice();
         final UUID uuid = productModel.getUuid();
@@ -68,16 +70,17 @@ class ProductBusinessServiceTest {
         final List<ProductDetails> details = productModel.getDetails();
         final StatusEnum status = productModel.getStatus();
 
-        when(this.userService.getAllByIds(userIds)).thenReturn(userEntitys);
+        when(this.userService.getAllByIds(userIds.stream().toList())).thenReturn(userEntityList);
         when(this.productService.create(name, price, userEntitys, uuid, releaseDate, details, status)).thenReturn(productModel);
 
         final ProductModel result = this.productBusinessService.create(name, price, userIds, uuid, releaseDate, details, status);
 
-        verify(this.userService).getAllByIds(userIds);
+        verify(this.userService).getAllByIds(userIds.stream().toList());
         verify(this.productService).create(name, price, userEntitys, uuid, releaseDate, details, status);
 
         verifyProduct(result, productModel);
     }
+
     
     @Test
     void addUsers() {

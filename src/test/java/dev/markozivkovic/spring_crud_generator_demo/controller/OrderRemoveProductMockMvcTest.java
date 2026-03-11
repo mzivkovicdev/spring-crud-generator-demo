@@ -53,7 +53,7 @@ class OrderRemoveProductMockMvcTest {
 
         final Long orderId = Instancio.create(Long.class);
 
-        this.mockMvc.perform(delete("/api/orders/{id}/products", orderId))
+        this.mockMvc.perform(delete("/api/v1/orders/{id}/products", orderId))
                 .andExpect(status().isNoContent());
 
         verify(this.orderService).removeProduct(orderId);
@@ -64,7 +64,7 @@ class OrderRemoveProductMockMvcTest {
 
         final String orderId = Instancio.create(String.class);
 
-        this.mockMvc.perform(delete("/api/orders/{id}/products", orderId))
+        this.mockMvc.perform(delete("/api/v1/orders/{id}/products", orderId))
                 .andExpect(status().isBadRequest());
     }
 

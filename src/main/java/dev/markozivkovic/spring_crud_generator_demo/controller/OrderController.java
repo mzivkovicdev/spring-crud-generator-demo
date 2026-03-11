@@ -22,7 +22,7 @@ import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.OrderTabl
 import dev.markozivkovic.spring_crud_generator_demo.persistance.service.OrderService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class OrderController implements OrdersApi {
 
     private final OrderRestMapper orderMapper = Mappers.getMapper(OrderRestMapper.class);
@@ -56,6 +56,7 @@ public class OrderController implements OrdersApi {
         );
     
     }
+
     
     @Override
     public ResponseEntity<OrderPayload> ordersIdGet(final Long id) {

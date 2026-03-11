@@ -18,6 +18,7 @@ properties:
   users:
     type: array
     nullable: false
+    uniqueItems: true
     items:
       $ref: './userInput.yaml'
   uuid:

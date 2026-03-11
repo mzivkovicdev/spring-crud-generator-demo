@@ -72,7 +72,7 @@ class OrderUpdateByIdMockMvcTest {
 
         when(this.orderService.updateById(orderId, body.getQuantity())).thenReturn(orderTable);
 
-        final ResultActions resultActions = this.mockMvc.perform(put("/api/orders/{id}", orderId)
+        final ResultActions resultActions = this.mockMvc.perform(put("/api/v1/orders/{id}", orderId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isOk());
@@ -93,7 +93,7 @@ class OrderUpdateByIdMockMvcTest {
         final String orderId = Instancio.create(String.class);
         final OrderUpdatePayload body = Instancio.create(OrderUpdatePayload.class);
 
-        this.mockMvc.perform(put("/api/orders/{id}", orderId)
+        this.mockMvc.perform(put("/api/v1/orders/{id}", orderId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
@@ -107,7 +107,7 @@ class OrderUpdateByIdMockMvcTest {
         final OrderUpdatePayload body = Instancio.create(OrderUpdatePayload.class);
         body.quantity(101);
 
-        this.mockMvc.perform(put("/api/orders/{id}", orderId)
+        this.mockMvc.perform(put("/api/v1/orders/{id}", orderId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
@@ -118,7 +118,7 @@ class OrderUpdateByIdMockMvcTest {
 
         final Long orderId = Instancio.create(Long.class);
 
-        this.mockMvc.perform(put("/api/orders/{id}", orderId)
+        this.mockMvc.perform(put("/api/v1/orders/{id}", orderId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
     }
