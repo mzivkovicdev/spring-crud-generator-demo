@@ -47,7 +47,7 @@ class UserDeleteByIdMockMvcTest {
 
         final Long userId = Instancio.create(Long.class);
 
-        this.mockMvc.perform(delete("/api/users/{id}", userId))
+        this.mockMvc.perform(delete("/api/v1/users/{id}", userId))
                 .andExpect(status().isNoContent());
 
         verify(this.userService).deleteById(userId);
@@ -58,7 +58,7 @@ class UserDeleteByIdMockMvcTest {
 
         final String userId = Instancio.create(String.class);
 
-        this.mockMvc.perform(delete("/api/users/{id}", userId))
+        this.mockMvc.perform(delete("/api/v1/users/{id}", userId))
                 .andExpect(status().isBadRequest());
     }
 }

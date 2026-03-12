@@ -18,7 +18,7 @@ import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.UserEntit
 import dev.markozivkovic.spring_crud_generator_demo.persistance.service.UserService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class UserController implements UsersApi {
 
     private final UserRestMapper userMapper = Mappers.getMapper(UserRestMapper.class);
@@ -45,6 +45,7 @@ public class UserController implements UsersApi {
         );
     
     }
+
     
     @Override
     public ResponseEntity<UserPayload> usersIdGet(final Long id) {

@@ -54,7 +54,7 @@ class ProductRemoveUserMockMvcTest {
         final Long id = Instancio.create(Long.class);
         final Long userUserId = Instancio.create(Long.class);
 
-        this.mockMvc.perform(delete("/api/products/{id}/users/{relationId}", id, userUserId))
+        this.mockMvc.perform(delete("/api/v1/products/{id}/users/{relationId}", id, userUserId))
                 .andExpect(status().isNoContent());
 
         verify(this.productBusinessService).removeUsers(id, userUserId);
@@ -66,7 +66,7 @@ class ProductRemoveUserMockMvcTest {
         final String id = Instancio.create(String.class);
         final Long userUserId = Instancio.create(Long.class);
 
-        this.mockMvc.perform(delete("/api/products/{id}/users/{relationId}", id, userUserId))
+        this.mockMvc.perform(delete("/api/v1/products/{id}/users/{relationId}", id, userUserId))
                 .andExpect(status().isBadRequest());
     }
 
@@ -76,7 +76,7 @@ class ProductRemoveUserMockMvcTest {
         final Long id = Instancio.create(Long.class);
         final String userUserId = Instancio.create(String.class);
 
-        this.mockMvc.perform(delete("/api/products/{id}/users/{relationId}", id, userUserId))
+        this.mockMvc.perform(delete("/api/v1/products/{id}/users/{relationId}", id, userUserId))
                 .andExpect(status().isBadRequest());
     }
 

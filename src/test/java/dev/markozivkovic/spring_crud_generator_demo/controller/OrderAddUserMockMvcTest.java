@@ -72,7 +72,7 @@ class OrderAddUserMockMvcTest {
 
         when(this.orderBusinessService.addUsers(orderId, body.getUserId())).thenReturn(orderTable);
         
-        final ResultActions resultActions = this.mockMvc.perform(post("/api/orders/{id}/users", orderId)
+        final ResultActions resultActions = this.mockMvc.perform(post("/api/v1/orders/{id}/users", orderId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isOk());
@@ -93,7 +93,7 @@ class OrderAddUserMockMvcTest {
         final String orderId = Instancio.create(String.class);
         final UserInput body = Instancio.create(UserInput.class);
         
-        this.mockMvc.perform(post("/api/orders/{id}/users", orderId)
+        this.mockMvc.perform(post("/api/v1/orders/{id}/users", orderId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
@@ -104,7 +104,7 @@ class OrderAddUserMockMvcTest {
 
         final Long orderId = Instancio.create(Long.class);
         
-        this.mockMvc.perform(post("/api/orders/{id}/users", orderId)
+        this.mockMvc.perform(post("/api/v1/orders/{id}/users", orderId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
     }

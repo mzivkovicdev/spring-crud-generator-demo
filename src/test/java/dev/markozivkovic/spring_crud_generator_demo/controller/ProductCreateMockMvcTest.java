@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.List;
+import java.util.Set;
 
 import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
@@ -75,11 +75,11 @@ class ProductCreateMockMvcTest {
         final ProductCreatePayload body = Instancio.create(ProductCreatePayload.class);
         body.name(generateString(10));
         body.price(1);
-        final List<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 
+        final Set<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 
                 body.getUsers().stream()
                     .map(UserInput::getUserId)
-                    .toList() : 
-                List.of();
+                    .collect(java.util.stream.Collectors.toSet()) : 
+                Set.of();
         final StatusEnum statusEnum = body.getStatus() != null ?
                 StatusEnum.valueOf(body.getStatus().name()) : null;
 
@@ -87,7 +87,7 @@ class ProductCreateMockMvcTest {
                 body.getName(), body.getPrice(), usersIds, body.getUuid(), body.getReleaseDate(), productDetailsMapper.mapProductDetailsPayloadToProductDetails(body.getDetails()), statusEnum
         )).thenReturn(productModel);
 
-        final ResultActions resultActions = this.mockMvc.perform(post("/api/products")
+        final ResultActions resultActions = this.mockMvc.perform(post("/api/v1/products")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isOk());
@@ -111,7 +111,7 @@ class ProductCreateMockMvcTest {
         body.name(null);
         body.price(101);
 
-        this.mockMvc.perform(post("/api/products")
+        this.mockMvc.perform(post("/api/v1/products")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
@@ -120,7 +120,7 @@ class ProductCreateMockMvcTest {
     @Test
     void productsPost_noRequestBody() throws Exception {
 
-        this.mockMvc.perform(post("/api/products")
+        this.mockMvc.perform(post("/api/v1/products")
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
     }

@@ -1,6 +1,6 @@
 package dev.markozivkovic.spring_crud_generator_demo.controller;
 
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.mapstruct.factory.Mappers;
@@ -23,7 +23,7 @@ import dev.markozivkovic.spring_crud_generator_demo.persistance.entity.ProductMo
 import dev.markozivkovic.spring_crud_generator_demo.persistance.service.ProductService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class ProductController implements ProductsApi {
 
     private final ProductRestMapper productMapper = Mappers.getMapper(ProductRestMapper.class);
@@ -40,11 +40,11 @@ public class ProductController implements ProductsApi {
     @Override
     public ResponseEntity<ProductPayload> productsPost(final ProductCreatePayload body) {
 
-        final List<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 
+        final Set<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 
                 body.getUsers().stream()
                     .map(UserInput::getUserId)
-                    .collect(Collectors.toList()) :
-                List.of();
+                    .collect(Collectors.toSet()) :
+                Set.of();
         final StatusEnum statusEnum = body.getStatus() != null ?
                 StatusEnum.valueOf(body.getStatus().name()) : null;
 
@@ -59,6 +59,7 @@ public class ProductController implements ProductsApi {
         );
     
     }
+
     
     @Override
     public ResponseEntity<ProductPayload> productsIdGet(final Long id) {

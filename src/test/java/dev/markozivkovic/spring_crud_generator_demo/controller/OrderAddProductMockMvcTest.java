@@ -72,7 +72,7 @@ class OrderAddProductMockMvcTest {
 
         when(this.orderBusinessService.addProduct(orderId, body.getId())).thenReturn(orderTable);
         
-        final ResultActions resultActions = this.mockMvc.perform(post("/api/orders/{id}/products", orderId)
+        final ResultActions resultActions = this.mockMvc.perform(post("/api/v1/orders/{id}/products", orderId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isOk());
@@ -93,7 +93,7 @@ class OrderAddProductMockMvcTest {
         final String orderId = Instancio.create(String.class);
         final ProductInput body = Instancio.create(ProductInput.class);
         
-        this.mockMvc.perform(post("/api/orders/{id}/products", orderId)
+        this.mockMvc.perform(post("/api/v1/orders/{id}/products", orderId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
@@ -104,7 +104,7 @@ class OrderAddProductMockMvcTest {
 
         final Long orderId = Instancio.create(Long.class);
         
-        this.mockMvc.perform(post("/api/orders/{id}/products", orderId)
+        this.mockMvc.perform(post("/api/v1/orders/{id}/products", orderId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
     }

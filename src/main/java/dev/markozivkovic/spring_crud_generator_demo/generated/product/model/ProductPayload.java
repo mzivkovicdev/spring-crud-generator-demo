@@ -5,12 +5,15 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import dev.markozivkovic.spring_crud_generator_demo.generated.product.model.ProductDetailsPayload;
 import dev.markozivkovic.spring_crud_generator_demo.generated.product.model.UserPayload;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
@@ -39,7 +42,7 @@ public class ProductPayload {
   private Integer price;
 
   @Valid
-  private List<@Valid UserPayload> users = new ArrayList<>();
+  private Set<@Valid UserPayload> users = new LinkedHashSet<>();
 
   private UUID uuid;
 
@@ -93,7 +96,7 @@ public class ProductPayload {
   /**
    * Constructor with only required parameters
    */
-  public ProductPayload(String name, Integer price, List<@Valid UserPayload> users, UUID uuid) {
+  public ProductPayload(String name, Integer price, Set<@Valid UserPayload> users, UUID uuid) {
     this.name = name;
     this.price = price;
     this.users = users;
@@ -162,14 +165,14 @@ public class ProductPayload {
     this.price = price;
   }
 
-  public ProductPayload users(List<@Valid UserPayload> users) {
+  public ProductPayload users(Set<@Valid UserPayload> users) {
     this.users = users;
     return this;
   }
 
   public ProductPayload addUsersItem(UserPayload usersItem) {
     if (this.users == null) {
-      this.users = new ArrayList<>();
+      this.users = new LinkedHashSet<>();
     }
     this.users.add(usersItem);
     return this;
@@ -182,11 +185,12 @@ public class ProductPayload {
   @NotNull @Valid 
   @Schema(name = "users", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("users")
-  public List<@Valid UserPayload> getUsers() {
+  public Set<@Valid UserPayload> getUsers() {
     return users;
   }
 
-  public void setUsers(List<@Valid UserPayload> users) {
+  @JsonDeserialize(as = LinkedHashSet.class)
+  public void setUsers(Set<@Valid UserPayload> users) {
     this.users = users;
   }
 

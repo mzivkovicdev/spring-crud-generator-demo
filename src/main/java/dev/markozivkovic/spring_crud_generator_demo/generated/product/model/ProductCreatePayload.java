@@ -5,12 +5,15 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import dev.markozivkovic.spring_crud_generator_demo.generated.product.model.ProductDetailsPayload;
 import dev.markozivkovic.spring_crud_generator_demo.generated.product.model.UserInput1;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
@@ -37,7 +40,7 @@ public class ProductCreatePayload {
   private Integer price;
 
   @Valid
-  private List<@Valid UserInput> users = new ArrayList<>();
+  private Set<@Valid UserInput> users = new LinkedHashSet<>();
 
   private UUID uuid;
 
@@ -91,7 +94,7 @@ public class ProductCreatePayload {
   /**
    * Constructor with only required parameters
    */
-  public ProductCreatePayload(String name, Integer price, List<@Valid UserInput> users, UUID uuid) {
+  public ProductCreatePayload(String name, Integer price, Set<@Valid UserInput> users, UUID uuid) {
     this.name = name;
     this.price = price;
     this.users = users;
@@ -140,14 +143,14 @@ public class ProductCreatePayload {
     this.price = price;
   }
 
-  public ProductCreatePayload users(List<@Valid UserInput> users) {
+  public ProductCreatePayload users(Set<@Valid UserInput> users) {
     this.users = users;
     return this;
   }
 
   public ProductCreatePayload addUsersItem(UserInput usersItem) {
     if (this.users == null) {
-      this.users = new ArrayList<>();
+      this.users = new LinkedHashSet<>();
     }
     this.users.add(usersItem);
     return this;
@@ -160,11 +163,12 @@ public class ProductCreatePayload {
   @NotNull @Valid 
   @Schema(name = "users", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("users")
-  public List<@Valid UserInput> getUsers() {
+  public Set<@Valid UserInput> getUsers() {
     return users;
   }
 
-  public void setUsers(List<@Valid UserInput> users) {
+  @JsonDeserialize(as = LinkedHashSet.class)
+  public void setUsers(Set<@Valid UserInput> users) {
     this.users = users;
   }
 

@@ -73,7 +73,7 @@ class OrderGetMockMvcTest {
 
         when(this.orderService.getById(orderId)).thenReturn(orderTable);
 
-        final ResultActions resultActions = this.mockMvc.perform(get("/api/orders/{id}", orderId))
+        final ResultActions resultActions = this.mockMvc.perform(get("/api/v1/orders/{id}", orderId))
                 .andExpect(status().isOk());
 
         final OrderPayload result = this.mapper.readValue(
@@ -91,7 +91,7 @@ class OrderGetMockMvcTest {
 
         final String orderId = Instancio.create(String.class);
 
-        this.mockMvc.perform(get("/api/orders/{id}", orderId))
+        this.mockMvc.perform(get("/api/v1/orders/{id}", orderId))
                 .andExpect(status().isBadRequest());
     }
 
@@ -106,7 +106,7 @@ class OrderGetMockMvcTest {
 
         when(this.orderService.getAll(pageNumber, pageSize)).thenReturn(pageOrderTables);
 
-        final ResultActions resultActions = this.mockMvc.perform(get("/api/orders")
+        final ResultActions resultActions = this.mockMvc.perform(get("/api/v1/orders")
                                 .queryParam("pageNumber", String.format("%s", pageNumber))
                                 .queryParam("pageSize", String.format("%s", pageSize)))
                         .andExpect(status().isOk());
@@ -141,7 +141,7 @@ class OrderGetMockMvcTest {
 
         final Integer pageSize = Instancio.create(Integer.class);
 
-        this.mockMvc.perform(get("/api/orders")
+        this.mockMvc.perform(get("/api/v1/orders")
                                 .queryParam("pageSize", String.format("%s", pageSize)))
                         .andExpect(status().isBadRequest());
     }
@@ -151,7 +151,7 @@ class OrderGetMockMvcTest {
 
         final Integer pageNumber = Instancio.create(Integer.class);
 
-        this.mockMvc.perform(get("/api/orders")
+        this.mockMvc.perform(get("/api/v1/orders")
                                 .queryParam("pageNumber", String.format("%s", pageNumber)))
                         .andExpect(status().isBadRequest());
     }
@@ -162,7 +162,7 @@ class OrderGetMockMvcTest {
         final String pageNumber = Instancio.create(String.class);
         final String pageSize = Instancio.create(String.class);
 
-        this.mockMvc.perform(get("/api/orders")
+        this.mockMvc.perform(get("/api/v1/orders")
                                 .queryParam("pageSize", String.format("%s", pageSize))
                                 .queryParam("pageNumber", String.format("%s", pageNumber)))
                         .andExpect(status().isBadRequest());

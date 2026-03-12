@@ -71,7 +71,7 @@ class UserUpdateByIdMockMvcTest {
 
         when(this.userService.updateById(userId, body.getUsername(), body.getEmail(), body.getPassword(), detailsMapper.mapDetailsPayloadToDetails(body.getDetails()), body.getRoles(), body.getPermissions())).thenReturn(userEntity);
 
-        final ResultActions resultActions = this.mockMvc.perform(put("/api/users/{id}", userId)
+        final ResultActions resultActions = this.mockMvc.perform(put("/api/v1/users/{id}", userId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isOk());
@@ -92,7 +92,7 @@ class UserUpdateByIdMockMvcTest {
         final String userId = Instancio.create(String.class);
         final UserUpdatePayload body = Instancio.create(UserUpdatePayload.class);
 
-        this.mockMvc.perform(put("/api/users/{id}", userId)
+        this.mockMvc.perform(put("/api/v1/users/{id}", userId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
@@ -108,7 +108,7 @@ class UserUpdateByIdMockMvcTest {
         body.password(null);
         body.permissions(java.util.List.of());
 
-        this.mockMvc.perform(put("/api/users/{id}", userId)
+        this.mockMvc.perform(put("/api/v1/users/{id}", userId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
@@ -119,7 +119,7 @@ class UserUpdateByIdMockMvcTest {
 
         final Long userId = Instancio.create(Long.class);
 
-        this.mockMvc.perform(put("/api/users/{id}", userId)
+        this.mockMvc.perform(put("/api/v1/users/{id}", userId)
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
     }

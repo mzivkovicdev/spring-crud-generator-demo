@@ -75,14 +75,14 @@ class OrderCreateMockMvcTest {
         final List<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 
                 body.getUsers().stream()
                     .map(UserInput::getUserId)
-                    .toList() : 
+                    .collect(java.util.stream.Collectors.toList()) : 
                 List.of();
 
         when(this.orderBusinessService.create(
                 productId, body.getQuantity(), usersIds
         )).thenReturn(orderTable);
 
-        final ResultActions resultActions = this.mockMvc.perform(post("/api/orders")
+        final ResultActions resultActions = this.mockMvc.perform(post("/api/v1/orders")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isOk());
@@ -105,7 +105,7 @@ class OrderCreateMockMvcTest {
         final OrderCreatePayload body = Instancio.create(OrderCreatePayload.class);
         body.quantity(101);
 
-        this.mockMvc.perform(post("/api/orders")
+        this.mockMvc.perform(post("/api/v1/orders")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
@@ -114,7 +114,7 @@ class OrderCreateMockMvcTest {
     @Test
     void ordersPost_noRequestBody() throws Exception {
 
-        this.mockMvc.perform(post("/api/orders")
+        this.mockMvc.perform(post("/api/v1/orders")
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
     }
