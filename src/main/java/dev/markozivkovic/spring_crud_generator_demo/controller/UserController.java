@@ -59,9 +59,13 @@ public class UserController implements UsersApi {
     }
     
     @Override
-    public ResponseEntity<UsersGet200Response> usersGet(final Integer pageNumber, final Integer pageSize) {
+    public ResponseEntity<UsersGet200Response> usersGet(
+            final Integer pageNumber,
+            final Integer pageSize) {
 
-        final Page<UserEntity> pageObject = this.userService.getAll(pageNumber, pageSize);
+        final Page<UserEntity> pageObject = this.userService.getAll(
+                pageNumber, pageSize
+        );
         return ResponseEntity.ok().body(
             new UsersGet200Response()
                 .totalPages(pageObject.getTotalPages())

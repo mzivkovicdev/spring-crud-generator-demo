@@ -53,9 +53,20 @@ type ProductPage {
   content: [Product!]!
 }
 
+enum ProductSortField {
+  name
+  price
+  releaseDate
+}
+
+input ProductSortInput {
+  sortBy: ProductSortField
+  sortDirection: SortDirection
+}
+
 extend type Query {
   productById(id: ID!): Product
-  productsPage(pageNumber: Int = 0, pageSize: Int = 20): ProductPage!
+  productsPage(pageNumber: Int = 0, pageSize: Int = 20, sort: ProductSortInput): ProductPage!
 }
 
 extend type Mutation {

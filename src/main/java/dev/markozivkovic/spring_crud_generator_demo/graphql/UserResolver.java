@@ -42,7 +42,10 @@ public class UserResolver {
     public PageTO<UserTO> usersPage(@Argument final Integer pageNumber,
                                     @Argument final Integer pageSize) {
         
-        final Page<UserEntity> pageObject = this.userService.getAll(pageNumber, pageSize);
+        final Page<UserEntity> pageObject = this.userService.getAll(
+                pageNumber,
+                pageSize
+        );
 
         return new PageTO<>(
             pageObject.getTotalPages(),

@@ -53,6 +53,8 @@ public interface ProductsApi {
      *
      * @param pageNumber Page number (required)
      * @param pageSize Page size (required)
+     * @param sortBy Sort field. Allowed values are name, price, releaseDate. (optional)
+     * @param sortDirection Sort direction. Allowed values are ASC and DESC. Used only when sortBy is provided. (optional, default to ASC)
      * @return Found products. (status code 200)
      */
     @Operation(
@@ -74,7 +76,9 @@ public interface ProductsApi {
     
     default ResponseEntity<ProductsGet200Response> productsGet(
         @NotNull @Parameter(name = "pageNumber", description = "Page number", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "pageNumber", required = true) Integer pageNumber,
-        @NotNull @Parameter(name = "pageSize", description = "Page size", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "pageSize", required = true) Integer pageSize
+        @NotNull @Parameter(name = "pageSize", description = "Page size", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "pageSize", required = true) Integer pageSize,
+        @Parameter(name = "sortBy", description = "Sort field. Allowed values are name, price, releaseDate.", in = ParameterIn.QUERY) @Valid @RequestParam(value = "sortBy", required = false) @Nullable String sortBy,
+        @Parameter(name = "sortDirection", description = "Sort direction. Allowed values are ASC and DESC. Used only when sortBy is provided.", in = ParameterIn.QUERY) @Valid @RequestParam(value = "sortDirection", required = false, defaultValue = "ASC") String sortDirection
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

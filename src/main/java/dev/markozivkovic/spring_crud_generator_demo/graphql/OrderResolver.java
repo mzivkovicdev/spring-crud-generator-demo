@@ -43,7 +43,10 @@ public class OrderResolver {
     public PageTO<OrderTO> ordersPage(@Argument final Integer pageNumber,
                                     @Argument final Integer pageSize) {
         
-        final Page<OrderTable> pageObject = this.orderService.getAll(pageNumber, pageSize);
+        final Page<OrderTable> pageObject = this.orderService.getAll(
+                pageNumber,
+                pageSize
+        );
 
         return new PageTO<>(
             pageObject.getTotalPages(),

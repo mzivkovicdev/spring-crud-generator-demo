@@ -73,9 +73,15 @@ public class ProductController implements ProductsApi {
     }
     
     @Override
-    public ResponseEntity<ProductsGet200Response> productsGet(final Integer pageNumber, final Integer pageSize) {
+    public ResponseEntity<ProductsGet200Response> productsGet(
+            final Integer pageNumber,
+            final Integer pageSize,
+            final String sortBy,
+            final String sortDirection) {
 
-        final Page<ProductModel> pageObject = this.productService.getAll(pageNumber, pageSize);
+        final Page<ProductModel> pageObject = this.productService.getAll(
+                pageNumber, pageSize, sortBy, sortDirection
+        );
         return ResponseEntity.ok().body(
             new ProductsGet200Response()
                 .totalPages(pageObject.getTotalPages())

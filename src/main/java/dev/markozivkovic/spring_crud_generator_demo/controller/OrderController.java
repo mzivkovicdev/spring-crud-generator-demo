@@ -70,9 +70,13 @@ public class OrderController implements OrdersApi {
     }
     
     @Override
-    public ResponseEntity<OrdersGet200Response> ordersGet(final Integer pageNumber, final Integer pageSize) {
+    public ResponseEntity<OrdersGet200Response> ordersGet(
+            final Integer pageNumber,
+            final Integer pageSize) {
 
-        final Page<OrderTable> pageObject = this.orderService.getAll(pageNumber, pageSize);
+        final Page<OrderTable> pageObject = this.orderService.getAll(
+                pageNumber, pageSize
+        );
         return ResponseEntity.ok().body(
             new OrdersGet200Response()
                 .totalPages(pageObject.getTotalPages())

@@ -84,15 +84,15 @@ class UserServiceTest {
                 final List<UserEntity> userEntitys = Instancio.ofList(UserEntity.class)
                         .size(10)
                         .create();
-
         final Page<UserEntity> pageUser = new PageImpl<>(userEntitys);
         final Integer pageNumber = Instancio.create(Integer.class);
         final Integer pageSize = Instancio.create(Integer.class);
-
         when(this.userRepository.findAll(PageRequest.of(pageNumber, pageSize)))
                 .thenReturn(pageUser);
 
-        final Page<UserEntity> results = this.userService.getAll(pageNumber, pageSize);
+        final Page<UserEntity> results = this.userService.getAll(
+                pageNumber, pageSize
+        );
 
         assertThat(results).isNotNull();
 

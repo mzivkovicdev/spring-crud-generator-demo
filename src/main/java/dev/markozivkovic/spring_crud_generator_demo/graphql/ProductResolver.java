@@ -43,9 +43,15 @@ public class ProductResolver {
 
     @QueryMapping
     public PageTO<ProductTO> productsPage(@Argument final Integer pageNumber,
-                                    @Argument final Integer pageSize) {
+                                    @Argument final Integer pageSize,
+                                    @Argument final java.util.Map<String, Object> sort) {
         
-        final Page<ProductModel> pageObject = this.productService.getAll(pageNumber, pageSize);
+        final Page<ProductModel> pageObject = this.productService.getAll(
+                pageNumber,
+                pageSize,
+                extractSortValue(sort, "sortBy"),
+                extractSortValue(sort, "sortDirection")
+        );
 
         return new PageTO<>(
             pageObject.getTotalPages(),
@@ -98,4 +104,11 @@ public class ProductResolver {
         );
     }
 
+
+    private String extractSortValue(final java.util.Map<String, Object> sort, final String key) {
+        if (sort == null || !sort.containsKey(key) || sort.get(key) == null) {
+            return null;
+        }
+        return String.valueOf(sort.get(key));
+    }
 }

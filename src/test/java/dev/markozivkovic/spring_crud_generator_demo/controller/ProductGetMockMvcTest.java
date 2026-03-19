@@ -103,12 +103,18 @@ class ProductGetMockMvcTest {
         final Page<ProductModel> pageProductModels = new PageImpl<>(productModels);
         final Integer pageNumber = Instancio.create(Integer.class);
         final Integer pageSize = Instancio.create(Integer.class);
+        final String sortBy = "name";
+        final String sortDirection = "ASC";
 
-        when(this.productService.getAll(pageNumber, pageSize)).thenReturn(pageProductModels);
+        when(this.productService.getAll(
+                pageNumber, pageSize, sortBy, sortDirection
+        )).thenReturn(pageProductModels);
 
         final ResultActions resultActions = this.mockMvc.perform(get("/api/v1/products")
                                 .queryParam("pageNumber", String.format("%s", pageNumber))
-                                .queryParam("pageSize", String.format("%s", pageSize)))
+                                .queryParam("pageSize", String.format("%s", pageSize))
+                                .queryParam("sortBy", sortBy)
+                                .queryParam("sortDirection", sortDirection))
                         .andExpect(status().isOk());
 
         final ProductsGet200Response results = this.mapper.readValue(
@@ -133,7 +139,9 @@ class ProductGetMockMvcTest {
             verifyProductSimple(result, productModel);
         });
 
-        verify(this.productService).getAll(pageNumber, pageSize);
+        verify(this.productService).getAll(
+                pageNumber, pageSize, sortBy, sortDirection
+        );
     }
 
     @Test

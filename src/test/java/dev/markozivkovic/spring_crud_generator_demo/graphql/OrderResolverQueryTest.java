@@ -114,7 +114,9 @@ class OrderResolverQueryTest {
         final Integer pageNumber = Instancio.create(Integer.class);
         final Integer pageSize = Instancio.create(Integer.class);
 
-        when(orderService.getAll(pageNumber, pageSize)).thenReturn(pageObject);
+        when(orderService.getAll(
+                pageNumber, pageSize
+        )).thenReturn(pageObject);
 
         final String query = """
             query($pageNumber: Int!, $pageSize: Int!) {
@@ -153,7 +155,9 @@ class OrderResolverQueryTest {
             verifyOrder(item, src);
         });
 
-        verify(orderService).getAll(pageNumber, pageSize);
+        verify(orderService).getAll(
+                pageNumber, pageSize
+        );
     }
 
     @Test

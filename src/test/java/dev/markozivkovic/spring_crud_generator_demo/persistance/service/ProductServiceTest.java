@@ -19,6 +19,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -86,15 +88,18 @@ class ProductServiceTest {
                 final List<ProductModel> productModels = Instancio.ofList(ProductModel.class)
                         .size(10)
                         .create();
-
         final Page<ProductModel> pageProduct = new PageImpl<>(productModels);
         final Integer pageNumber = Instancio.create(Integer.class);
         final Integer pageSize = Instancio.create(Integer.class);
+        final String sortBy = null;
+        final String sortDirection = null;
 
         when(this.productRepository.findAll(PageRequest.of(pageNumber, pageSize)))
                 .thenReturn(pageProduct);
 
-        final Page<ProductModel> results = this.productService.getAll(pageNumber, pageSize);
+        final Page<ProductModel> results = this.productService.getAll(
+                pageNumber, pageSize, sortBy, sortDirection
+        );
 
         assertThat(results).isNotNull();
 
@@ -109,6 +114,56 @@ class ProductServiceTest {
         });
 
         verify(this.productRepository).findAll(PageRequest.of(pageNumber, pageSize));
+    }
+
+    @Test
+    void getAll_withSortByOnly_usesDefaultDirection() {
+        final Integer pageNumber = Instancio.create(Integer.class);
+        final Integer pageSize = Instancio.create(Integer.class);
+        final String sortBy = "name";
+        final String sortDirection = null;
+        final Sort sort = Sort.by(Direction.fromString("ASC"), sortBy);
+        final Page<ProductModel> pageProduct = new PageImpl<>(List.of());
+
+        when(this.productRepository.findAll(PageRequest.of(pageNumber, pageSize, sort)))
+                .thenReturn(pageProduct);
+
+        final Page<ProductModel> results = this.productService.getAll(
+                pageNumber, pageSize, sortBy, sortDirection
+        );
+
+        assertThat(results).isNotNull();
+        verify(this.productRepository).findAll(PageRequest.of(pageNumber, pageSize, sort));
+    }
+
+    @Test
+    void getAll_withSortByAndSortDirection() {
+        final Integer pageNumber = Instancio.create(Integer.class);
+        final Integer pageSize = Instancio.create(Integer.class);
+        final String sortBy = "name";
+        final String sortDirection = "DESC";
+        final Sort sort = Sort.by(Direction.fromString(sortDirection), sortBy);
+        final Page<ProductModel> pageProduct = new PageImpl<>(List.of());
+
+        when(this.productRepository.findAll(PageRequest.of(pageNumber, pageSize, sort)))
+                .thenReturn(pageProduct);
+
+        final Page<ProductModel> results = this.productService.getAll(
+                pageNumber, pageSize, sortBy, sortDirection
+        );
+
+        assertThat(results).isNotNull();
+        verify(this.productRepository).findAll(PageRequest.of(pageNumber, pageSize, sort));
+    }
+
+    @Test
+    void getAll_invalidSortBy_throwsIllegalArgumentException() {
+        final Integer pageNumber = Instancio.create(Integer.class);
+        final Integer pageSize = Instancio.create(Integer.class);
+
+        assertThatThrownBy(() -> this.productService.getAll(pageNumber, pageSize, "invalidSortField", null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Invalid sortBy");
     }
 
     
