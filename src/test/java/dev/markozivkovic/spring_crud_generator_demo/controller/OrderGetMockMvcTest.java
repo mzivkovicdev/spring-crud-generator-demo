@@ -104,7 +104,9 @@ class OrderGetMockMvcTest {
         final Integer pageNumber = Instancio.create(Integer.class);
         final Integer pageSize = Instancio.create(Integer.class);
 
-        when(this.orderService.getAll(pageNumber, pageSize)).thenReturn(pageOrderTables);
+        when(this.orderService.getAll(
+                pageNumber, pageSize
+        )).thenReturn(pageOrderTables);
 
         final ResultActions resultActions = this.mockMvc.perform(get("/api/v1/orders")
                                 .queryParam("pageNumber", String.format("%s", pageNumber))
@@ -133,7 +135,9 @@ class OrderGetMockMvcTest {
             verifyOrderSimple(result, orderTable);
         });
 
-        verify(this.orderService).getAll(pageNumber, pageSize);
+        verify(this.orderService).getAll(
+                pageNumber, pageSize
+        );
     }
 
     @Test

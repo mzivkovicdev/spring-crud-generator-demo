@@ -87,15 +87,15 @@ class OrderServiceTest {
                 final List<OrderTable> orderTables = Instancio.ofList(OrderTable.class)
                         .size(10)
                         .create();
-
         final Page<OrderTable> pageOrder = new PageImpl<>(orderTables);
         final Integer pageNumber = Instancio.create(Integer.class);
         final Integer pageSize = Instancio.create(Integer.class);
-
         when(this.orderRepository.findAll(PageRequest.of(pageNumber, pageSize)))
                 .thenReturn(pageOrder);
 
-        final Page<OrderTable> results = this.orderService.getAll(pageNumber, pageSize);
+        final Page<OrderTable> results = this.orderService.getAll(
+                pageNumber, pageSize
+        );
 
         assertThat(results).isNotNull();
 

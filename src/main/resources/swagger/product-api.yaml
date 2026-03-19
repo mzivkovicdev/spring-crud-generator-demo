@@ -46,6 +46,26 @@ paths:
         required: true
         schema:
           type: integer
+      - in: query
+        name: sortBy
+        description: Sort field. Allowed values are name, price, releaseDate.
+        required: false
+        schema:
+          type: string
+          enum:
+            - name
+            - price
+            - releaseDate
+      - in: query
+        name: sortDirection
+        description: Sort direction. Allowed values are ASC and DESC. Used only when sortBy is provided.
+        required: false
+        schema:
+          type: string
+          enum:
+            - ASC
+            - DESC
+          default: ASC
       
       summary: Get the products
       tags:
@@ -72,6 +92,7 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/ProductPayload'
+
 
   /products/{id}:
     parameters:

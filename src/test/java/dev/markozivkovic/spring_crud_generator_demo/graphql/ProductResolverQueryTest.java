@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Map;
 
 import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
@@ -113,12 +114,19 @@ class ProductResolverQueryTest {
         final Page<ProductModel> pageObject = new PageImpl<>(productModels);
         final Integer pageNumber = Instancio.create(Integer.class);
         final Integer pageSize = Instancio.create(Integer.class);
+        final Map<String, Object> sort = Map.of(
+                "sortBy", "name",
+                "sortDirection", "ASC"
+        );
 
-        when(productService.getAll(pageNumber, pageSize)).thenReturn(pageObject);
+        when(productService.getAll(
+                pageNumber, pageSize,
+                String.valueOf(sort.get("sortBy")), String.valueOf(sort.get("sortDirection"))
+        )).thenReturn(pageObject);
 
         final String query = """
-            query($pageNumber: Int!, $pageSize: Int!) {
-            productsPage(pageNumber: $pageNumber, pageSize: $pageSize) {
+            query($pageNumber: Int!, $pageSize: Int!, $sort: ProductSortInput) {
+            productsPage(pageNumber: $pageNumber, pageSize: $pageSize, sort: $sort) {
                 totalPages
                 totalElements
                 size
@@ -131,6 +139,7 @@ class ProductResolverQueryTest {
         final PageTO<ProductTO> result = this.graphQlTester.document(query)
                 .variable("pageNumber", pageNumber)
                 .variable("pageSize", pageSize)
+                .variable("sort", sort)
                 .execute()
                 .path("productsPage")
                 .entity(new ParameterizedTypeReference<PageTO<ProductTO>>() {})
@@ -153,7 +162,10 @@ class ProductResolverQueryTest {
             verifyProduct(item, src);
         });
 
-        verify(productService).getAll(pageNumber, pageSize);
+        verify(productService).getAll(
+                pageNumber, pageSize,
+                String.valueOf(sort.get("sortBy")), String.valueOf(sort.get("sortDirection"))
+        );
     }
 
     @Test

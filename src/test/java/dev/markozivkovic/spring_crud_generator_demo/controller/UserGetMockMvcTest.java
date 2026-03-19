@@ -99,7 +99,9 @@ class UserGetMockMvcTest {
         final Integer pageNumber = Instancio.create(Integer.class);
         final Integer pageSize = Instancio.create(Integer.class);
 
-        when(this.userService.getAll(pageNumber, pageSize)).thenReturn(pageUserEntitys);
+        when(this.userService.getAll(
+                pageNumber, pageSize
+        )).thenReturn(pageUserEntitys);
 
         final ResultActions resultActions = this.mockMvc.perform(get("/api/v1/users")
                                 .queryParam("pageNumber", String.format("%s", pageNumber))
@@ -128,7 +130,9 @@ class UserGetMockMvcTest {
             verifyUserSimple(result, userEntity);
         });
 
-        verify(this.userService).getAll(pageNumber, pageSize);
+        verify(this.userService).getAll(
+                pageNumber, pageSize
+        );
     }
 
     @Test

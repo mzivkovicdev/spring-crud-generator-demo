@@ -12,6 +12,8 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import dev.markozivkovic.spring_crud_generator_demo.annotation.OptimisticLockingRetry;
@@ -54,12 +56,42 @@ public class ProductService {
      *
      * @param pageNumber The page number.
      * @param pageSize The page size.
+     * @param sortBy Optional sort field.
+     * @param sortDirection Optional sort direction (ASC or DESC).
      * @return A page of {@link ProductModel}.
      */
-    public Page<ProductModel> getAll(final Integer pageNumber, final Integer pageSize) {
+    public Page<ProductModel> getAll(final Integer pageNumber, final Integer pageSize,
+            final String sortBy, final String sortDirection) {
 
-        return repository.findAll(PageRequest.of(pageNumber, pageSize));
+        if (sortBy == null || sortBy.isBlank()) {
+            return repository.findAll(PageRequest.of(pageNumber, pageSize));
+        }
+
+        if (!isAllowedSortField(sortBy)) {
+            throw new IllegalArgumentException(
+                "Invalid sortBy '" + sortBy + "' for ProductModel. Allowed values are: name, price, releaseDate."
+            );
+        }
+
+        final String resolvedSortDirection = (sortDirection == null || sortDirection.isBlank())
+                ? "ASC" : sortDirection;
+        final Direction direction;
+        try {
+            direction = Direction.fromString(resolvedSortDirection);
+        } catch (final IllegalArgumentException ex) {
+            throw new IllegalArgumentException(
+                "Invalid sortDirection '" + resolvedSortDirection + "' for ProductModel. Allowed values are: ASC, DESC."
+            );
+        }
+
+        final Sort sort = Sort.by(direction, sortBy);
+        return repository.findAll(PageRequest.of(pageNumber, pageSize, sort));
     }
+
+    private boolean isAllowedSortField(final String sortField) {
+        return "name".equals(sortField) || "price".equals(sortField) || "releaseDate".equals(sortField);
+    }
+
         
     /**
      * Creates a new {@link ProductModel}.

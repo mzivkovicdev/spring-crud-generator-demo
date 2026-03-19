@@ -49,6 +49,7 @@ public class UserService {
 
         return repository.findAll(PageRequest.of(pageNumber, pageSize));
     }
+
         
     @OptimisticLockingRetry
     @CachePut(value = "userEntity", key = "#result.userId")

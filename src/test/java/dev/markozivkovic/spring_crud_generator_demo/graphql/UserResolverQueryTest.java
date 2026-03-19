@@ -110,7 +110,9 @@ class UserResolverQueryTest {
         final Integer pageNumber = Instancio.create(Integer.class);
         final Integer pageSize = Instancio.create(Integer.class);
 
-        when(userService.getAll(pageNumber, pageSize)).thenReturn(pageObject);
+        when(userService.getAll(
+                pageNumber, pageSize
+        )).thenReturn(pageObject);
 
         final String query = """
             query($pageNumber: Int!, $pageSize: Int!) {
@@ -149,7 +151,9 @@ class UserResolverQueryTest {
             verifyUser(item, src);
         });
 
-        verify(userService).getAll(pageNumber, pageSize);
+        verify(userService).getAll(
+                pageNumber, pageSize
+        );
     }
 
     @Test

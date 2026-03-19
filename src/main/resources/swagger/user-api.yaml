@@ -73,6 +73,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/UserPayload'
 
+
   /users/{userId}:
     parameters:
       - in: path
