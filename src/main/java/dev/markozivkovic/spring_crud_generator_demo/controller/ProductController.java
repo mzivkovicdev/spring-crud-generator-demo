@@ -1,6 +1,6 @@
 package dev.markozivkovic.spring_crud_generator_demo.controller;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.mapstruct.factory.Mappers;
@@ -40,11 +40,11 @@ public class ProductController implements ProductsApi {
     @Override
     public ResponseEntity<ProductPayload> productsPost(final ProductCreatePayload body) {
 
-        final Set<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 
+        final List<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 
                 body.getUsers().stream()
                     .map(UserInput::getUserId)
-                    .collect(Collectors.toSet()) :
-                Set.of();
+                    .collect(Collectors.toList()) :
+                List.of();
         final StatusEnum statusEnum = body.getStatus() != null ?
                 StatusEnum.valueOf(body.getStatus().name()) : null;
 
@@ -60,6 +60,7 @@ public class ProductController implements ProductsApi {
     
     }
 
+    
     
     @Override
     public ResponseEntity<ProductPayload> productsIdGet(final Long id) {

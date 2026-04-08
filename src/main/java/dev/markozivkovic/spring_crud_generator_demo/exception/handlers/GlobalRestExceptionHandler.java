@@ -3,6 +3,8 @@ package dev.markozivkovic.spring_crud_generator_demo.exception.handlers;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import jakarta.validation.ConstraintViolationException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -80,6 +83,28 @@ public class GlobalRestExceptionHandler {
         return new ResponseEntity<>(
                 new HttpResponse(
                         String.format(EXTENDED_MESSAGE_FORMAT, VALIDATION_FAILED_MESSAGE, details)
+                ),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<HttpResponse> constraintViolationError(final ConstraintViolationException e) {
+
+        return new ResponseEntity<>(
+                new HttpResponse(
+                        String.format(EXTENDED_MESSAGE_FORMAT, VALIDATION_FAILED_MESSAGE, e.getMessage())
+                ),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public ResponseEntity<HttpResponse> handlerMethodValidationError(final HandlerMethodValidationException e) {
+
+        return new ResponseEntity<>(
+                new HttpResponse(
+                        String.format(EXTENDED_MESSAGE_FORMAT, VALIDATION_FAILED_MESSAGE, e.getMessage())
                 ),
                 HttpStatus.BAD_REQUEST
         );

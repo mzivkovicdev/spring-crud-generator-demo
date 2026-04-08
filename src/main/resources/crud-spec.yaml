@@ -30,6 +30,9 @@ configuration:
   tests:
     unit: true
     dataGenerator: instancio
+  ai:
+    claude: true
+    agents: true
   additionalProperties:
     rest.basePath: /api/v1
     rest.response.excludeNull: true
@@ -92,7 +95,6 @@ entities:
       - name: users
         type: UserEntity
         relation:
-          uniqueItems: true
           type: OneToMany
           fetch: LAZY
           cascade: MERGE

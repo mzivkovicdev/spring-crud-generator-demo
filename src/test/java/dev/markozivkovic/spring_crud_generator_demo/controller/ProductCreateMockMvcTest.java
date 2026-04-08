@@ -8,7 +8,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
@@ -75,11 +76,11 @@ class ProductCreateMockMvcTest {
         final ProductCreatePayload body = Instancio.create(ProductCreatePayload.class);
         body.name(generateString(10));
         body.price(1);
-        final Set<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 
+        final List<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 
                 body.getUsers().stream()
                     .map(UserInput::getUserId)
-                    .collect(java.util.stream.Collectors.toSet()) : 
-                Set.of();
+                    .collect(Collectors.toList()) : 
+                List.of();
         final StatusEnum statusEnum = body.getStatus() != null ?
                 StatusEnum.valueOf(body.getStatus().name()) : null;
 

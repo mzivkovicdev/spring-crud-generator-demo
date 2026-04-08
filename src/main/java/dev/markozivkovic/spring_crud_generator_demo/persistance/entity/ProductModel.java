@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
@@ -65,7 +64,7 @@ public class ProductModel {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_id")
-    private Set<UserEntity> users;
+    private List<UserEntity> users;
 
     @Column(
         nullable = false
@@ -88,7 +87,7 @@ public class ProductModel {
 
     }
 
-    public ProductModel(final String name, final Integer price, final Set<UserEntity> users, final UUID uuid, final LocalDate releaseDate, final List<ProductDetails> details, final StatusEnum status) {
+    public ProductModel(final String name, final Integer price, final List<UserEntity> users, final UUID uuid, final LocalDate releaseDate, final List<ProductDetails> details, final StatusEnum status) {
         this.name = name;
         this.price = price;
         this.users = users;
@@ -125,11 +124,11 @@ public class ProductModel {
         return this;
     }
 
-    public Set<UserEntity> getUsers() {
+    public List<UserEntity> getUsers() {
         return this.users;
     }
 
-    public ProductModel setUsers(final Set<UserEntity> users) {
+    public ProductModel setUsers(final List<UserEntity> users) {
         this.users = users;
         return this;
     }

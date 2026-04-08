@@ -92,7 +92,7 @@ class ProductAddUserMockMvcTest {
 
         final String id = Instancio.create(String.class);
         final UserInput body = Instancio.create(UserInput.class);
-        
+
         this.mockMvc.perform(post("/api/v1/products/{id}/users", id)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(this.mapper.writeValueAsString(body)))
