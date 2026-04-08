@@ -157,6 +157,14 @@ public class UserEntity {
         return this;
     }
 
+    public boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public UserEntity setDeleted(final boolean deleted) {
+        this.deleted = deleted;
+        return this;
+    }
 
     @Override
     public boolean equals(final Object o) {

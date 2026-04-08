@@ -59,6 +59,7 @@ public class UserService {
 
         return this.repository.saveAndFlush(new UserEntity(username, email, password, details, roles, permissions));
     }
+    
         
     @OptimisticLockingRetry
     @CachePut(value = "userEntity", key = "#userId")

@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
@@ -75,7 +76,7 @@ class OrderCreateMockMvcTest {
         final List<Long> usersIds = (body.getUsers() != null && !body.getUsers().isEmpty()) ? 
                 body.getUsers().stream()
                     .map(UserInput::getUserId)
-                    .collect(java.util.stream.Collectors.toList()) : 
+                    .collect(Collectors.toList()) : 
                 List.of();
 
         when(this.orderBusinessService.create(

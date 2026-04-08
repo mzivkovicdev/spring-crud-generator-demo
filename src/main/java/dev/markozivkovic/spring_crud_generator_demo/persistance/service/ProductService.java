@@ -2,7 +2,6 @@ package dev.markozivkovic.spring_crud_generator_demo.persistance.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -105,12 +104,13 @@ public class ProductService {
      */
     @OptimisticLockingRetry
     @CachePut(value = "productModel", key = "#result.id")
-    public ProductModel create(final String name, final Integer price, final Set<UserEntity> users, final UUID uuid, final LocalDate releaseDate, final List<ProductDetails> details, final StatusEnum status) {
+    public ProductModel create(final String name, final Integer price, final List<UserEntity> users, final UUID uuid, final LocalDate releaseDate, final List<ProductDetails> details, final StatusEnum status) {
 
         LOGGER.info("Creating new product");
 
         return this.repository.saveAndFlush(new ProductModel(name, price, users, uuid, releaseDate, details, status));
     }
+    
         
     /**
      * Updates an existing {@link ProductModel}

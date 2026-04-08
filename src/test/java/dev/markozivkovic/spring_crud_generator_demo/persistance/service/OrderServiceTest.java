@@ -81,6 +81,7 @@ class OrderServiceTest {
 
         verify(this.orderRepository).findById(orderId);
     }
+    
 
         @Test
     void getAll() {
@@ -129,6 +130,7 @@ class OrderServiceTest {
 
         verify(this.orderRepository).saveAndFlush(any());
     }
+    
     
     @Test
     void updateById() {
@@ -179,6 +181,7 @@ class OrderServiceTest {
 
         verify(this.orderRepository).deleteById(orderId);
     }
+
     
     @Test
     void addProduct() {

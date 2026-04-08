@@ -1,9 +1,7 @@
 package dev.markozivkovic.spring_crud_generator_demo.businessservice;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -32,12 +30,13 @@ public class ProductBusinessService {
     }
     
     @OptimisticLockingRetry
-    public ProductModel create(final String name, final Integer price, final Set<Long> userIds, final UUID uuid, final LocalDate releaseDate, final List<ProductDetails> details, final StatusEnum status) {
+    public ProductModel create(final String name, final Integer price, final List<Long> userIds, final UUID uuid, final LocalDate releaseDate, final List<ProductDetails> details, final StatusEnum status) {
 
-        final Set<UserEntity> userEntitys = new HashSet<>(this.userService.getAllByIds(userIds.stream().toList()));
+        final List<UserEntity> userEntitys = this.userService.getAllByIds(userIds);
 
         return this.productService.create(name, price, userEntitys, uuid, releaseDate, details, status);
     }
+    
 
     /**
      * Add {@link UserEntity} to {@link ProductModel}

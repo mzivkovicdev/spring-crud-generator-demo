@@ -47,6 +47,7 @@ public class UserController implements UsersApi {
     }
 
     
+    
     @Override
     public ResponseEntity<UserPayload> usersIdGet(final Long id) {
         return ResponseEntity.ok(

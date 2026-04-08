@@ -78,6 +78,7 @@ class UserServiceTest {
 
         verify(this.userRepository).findById(userId);
     }
+    
 
         @Test
     void getAll() {
@@ -126,6 +127,7 @@ class UserServiceTest {
 
         verify(this.userRepository).saveAndFlush(any());
     }
+    
     
     @Test
     void updateById() {
@@ -176,6 +178,7 @@ class UserServiceTest {
 
         verify(this.userRepository).deleteById(userId);
     }
+
     
     @Test
     void getAllByIds() {

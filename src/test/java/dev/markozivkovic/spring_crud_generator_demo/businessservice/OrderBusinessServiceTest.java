@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 import org.instancio.Instancio;
@@ -63,7 +64,7 @@ class OrderBusinessServiceTest {
         final List<UserEntity> userEntitys = orderTable.getUsers();
         final List<Long> userIds = userEntitys.stream()
                 .map(UserEntity::getUserId)
-                .collect(java.util.stream.Collectors.toList());
+                .collect(Collectors.toList());
         final Integer quantity = orderTable.getQuantity();
 
         when(this.productService.getById(productId)).thenReturn(productModel);
@@ -79,6 +80,7 @@ class OrderBusinessServiceTest {
         verifyOrder(result, orderTable);
     }
 
+    
     
     @Test
     void addProduct() {
